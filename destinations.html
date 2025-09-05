@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Study Destinations - Modern Education Consult Ltd</title>
+  <meta name="description" content="Explore top study destinations including Canada, UK, USA, Australia, Germany, and Malaysia. Expert guidance for international education.">
+  <meta name="keywords" content="study abroad destinations, international universities, study in canada, study in uk, study in usa">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+
+<body class="destinations-page">
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+        <h1 class="sitename">Modern Education Consult</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li class="dropdown"><a href="#"><span>Destinations</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="destinations.html">All Destinations</a></li>
+              <li><a href="destinations.html#canada">Canada</a></li>
+              <li><a href="destinations.html#uk">United Kingdom</a></li>
+              <li><a href="destinations.html#usa">United States</a></li>
+              <li><a href="destinations.html#australia">Australia</a></li>
+              <li><a href="destinations.html#germany">Germany</a></li>
+              <li><a href="destinations.html#france">France</a></li>
+              <li><a href="destinations.html#netherlands">Netherlands</a></li>
+              <li><a href="destinations.html#sweden">Sweden</a></li>
+              <li><a href="destinations.html#ireland">Ireland</a></li>
+              <li><a href="destinations.html#china">China</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="student-portal.php">Student Portal</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="index.html#contact">Apply Now</a>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container">
+        <h1>Study Destinations</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Destinations</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="destinations section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Top Study Destinations</h2>
+          <p>Explore world-class universities and educational opportunities across the globe</p>
+        </div>
+
+        <!-- Selected Country Details (Hidden by default) -->
+        <div id="selected-country-details" class="selected-country-details" style="display: none;">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="country-detail-content">
+                <h3 id="selected-country-name">Selected Country</h3>
+                <p id="selected-country-description">Country description will appear here</p>
+                <div class="country-features" id="selected-country-features">
+                  <!-- Features will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="country-detail-image">
+                <img id="selected-country-image" src="" alt="Country Image" class="img-fluid">
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <a href="#contact" class="btn btn-primary me-3">Apply Now</a>
+            <a href="#contact" class="btn btn-outline-primary">Get Consultation</a>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Canada -->
+          <div class="col-lg-4 col-md-6 destination-card" id="canada" data-aos="fade-up" data-aos-delay="100">
+            <div class="destination-image">
+              <img src="assets/img/canada.png" alt="Study in Canada - Maple Leaf Country" class="img-fluid">
+              <div class="destination-overlay">
+                <h3>Canada</h3>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h4>Study in Canada</h4>
+              <p>World-class universities with affordable education and excellent post-graduation opportunities. Known for multicultural environment and high quality of life.</p>
+            </div>
+          </div>
+          <!-- Repeat for each country, using correct id and image path as in the JS countryData -->
+
+          <!-- United Kingdom -->
+          <div class="col-lg-4 col-md-6" id="uk" data-aos="fade-up" data-aos-delay="200">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/uk.png" alt="Study in UK - Big Ben and London" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>United Kingdom</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in UK</h4>
+                <p>Prestigious universities with rich academic traditions and global recognition. Home to Oxford, Cambridge, and other world-renowned institutions.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> Prestigious universities</li>
+                  <li><i class="bi bi-check-circle"></i> Rich academic heritage</li>
+                  <li><i class="bi bi-check-circle"></i> Global recognition</li>
+                  <li><i class="bi bi-check-circle"></i> Research excellence</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- United States -->
+          <div class="col-lg-4 col-md-6" id="usa" data-aos="fade-up" data-aos-delay="300">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/usa.webp" alt="Study in USA - Statue of Liberty" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>United States</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in USA</h4>
+                <p>Top-ranked universities offering diverse programs and cutting-edge research opportunities. Home to Harvard, MIT, Stanford, and other elite institutions.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> Top-ranked universities</li>
+                  <li><i class="bi bi-check-circle"></i> Diverse programs</li>
+                  <li><i class="bi bi-check-circle"></i> Research opportunities</li>
+                  <li><i class="bi bi-check-circle"></i> Innovation focus</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Australia -->
+          <div class="col-lg-4 col-md-6" id="australia" data-aos="fade-up" data-aos-delay="400">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/2.webp" alt="Study in Australia - Sydney Opera House" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>Australia</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in Australia</h4>
+                <p>High-quality education with beautiful campuses and strong industry connections. Known for excellent student support and work opportunities.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> High-quality education</li>
+                  <li><i class="bi bi-check-circle"></i> Beautiful campuses</li>
+                  <li><i class="bi bi-check-circle"></i> Industry connections</li>
+                  <li><i class="bi bi-check-circle"></i> Student support</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Germany -->
+          <div class="col-lg-4 col-md-6" id="germany" data-aos="fade-up" data-aos-delay="500">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/germany.webp" alt="Study in Germany - Brandenburg Gate" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>Germany</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in Germany</h4>
+                <p>Tuition-free education at public universities with world-class engineering programs. Strong focus on research and innovation.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> Tuition-free education</li>
+                  <li><i class="bi bi-check-circle"></i> Engineering excellence</li>
+                  <li><i class="bi bi-check-circle"></i> Research focus</li>
+                  <li><i class="bi bi-check-circle"></i> Innovation hub</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- France -->
+          <div class="col-lg-4 col-md-6" id="france" data-aos="fade-up" data-aos-delay="600">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/3.avif" alt="Study in France - Eiffel Tower" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>France</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in France</h4>
+                <p>Rich cultural heritage with world-class universities and affordable education. Known for art, fashion, and business programs.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> Cultural experience</li>
+                  <li><i class="bi bi-check-circle"></i> Affordable education</li>
+                  <li><i class="bi bi-check-circle"></i> Art & fashion programs</li>
+                  <li><i class="bi bi-check-circle"></i> Business excellence</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Netherlands -->
+          <div class="col-lg-4 col-md-6" id="netherlands" data-aos="fade-up" data-aos-delay="700">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/malaysia.jpg" alt="Study in Netherlands - Windmills and Tulips" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>Netherlands</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in Netherlands</h4>
+                <p>Innovative education system with English-taught programs and strong focus on research. Known for technology and engineering excellence.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> English-taught programs</li>
+                  <li><i class="bi bi-check-circle"></i> Technology focus</li>
+                  <li><i class="bi bi-check-circle"></i> Research excellence</li>
+                  <li><i class="bi bi-check-circle"></i> Innovation culture</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sweden -->
+          <div class="col-lg-4 col-md-6" id="sweden" data-aos="fade-up" data-aos-delay="800">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/3.avif" alt="Study in Sweden - Stockholm and Nordic Landscape" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>Sweden</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in Sweden</h4>
+                <p>High-quality education with focus on sustainability and innovation. Known for engineering, technology, and design programs.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> Sustainability focus</li>
+                  <li><i class="bi bi-check-circle"></i> Engineering excellence</li>
+                  <li><i class="bi bi-check-circle"></i> Design programs</li>
+                  <li><i class="bi bi-check-circle"></i> Innovation culture</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ireland -->
+          <div class="col-lg-4 col-md-6" id="ireland" data-aos="fade-up" data-aos-delay="900">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/1.jpg" alt="Study in Ireland - Dublin and Irish Landscape" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>Ireland</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in Ireland</h4>
+                <p>Friendly and welcoming environment with excellent universities. Known for technology, business, and literature programs.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> Friendly environment</li>
+                  <li><i class="bi bi-check-circle"></i> Technology programs</li>
+                  <li><i class="bi bi-check-circle"></i> Business excellence</li>
+                  <li><i class="bi bi-check-circle"></i> Literature programs</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- China -->
+          <div class="col-lg-4 col-md-6" id="china" data-aos="fade-up" data-aos-delay="1000">
+            <div class="destination-card">
+              <div class="destination-image">
+                <img src="assets/img/china.png" alt="Study in China - Great Wall and Modern Cities" class="img-fluid">
+                <div class="destination-overlay">
+                  <h3>China</h3>
+                </div>
+              </div>
+              <div class="destination-content">
+                <h4>Study in China</h4>
+                <p>Rapidly growing education hub with world-class universities and affordable tuition. Known for technology, engineering, and business programs.</p>
+                <ul class="destination-features">
+                  <li><i class="bi bi-check-circle"></i> Affordable education</li>
+                  <li><i class="bi bi-check-circle"></i> Technology focus</li>
+                  <li><i class="bi bi-check-circle"></i> Growing economy</li>
+                  <li><i class="bi bi-check-circle"></i> Cultural experience</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" class="footer">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">Modern Education Consult</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>123 Education Plaza</p>
+            <p>Downtown, NY 10001</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+1 (555) 123-4567</span></p>
+            <p><strong>Email:</strong> <span>info@moderneducationconsult.com</span></p>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Destinations</h4>
+          <ul>
+            <li><a href="destinations.html#canada">Canada</a></li>
+            <li><a href="destinations.html#uk">United Kingdom</a></li>
+            <li><a href="destinations.html#usa">United States</a></li>
+            <li><a href="destinations.html#australia">Australia</a></li>
+            <li><a href="destinations.html#germany">Germany</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="blog.html">Study Tips</a></li>
+            <li><a href="blog.html">Visa Guide</a></li>
+            <li><a href="blog.html">Scholarship Info</a></li>
+            <li><a href="blog.html">University Rankings</a></li>
+            <li><a href="blog.html">Success Stories</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Modern Education Consult Ltd</strong> <span>All Rights Reserved</span></p>
+    </div>
+  </footer>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/js/main.js"></script>
+  
+  <script>
+    // Country data
+    const countryData = {
+      'canada': {
+        name: 'Canada',
+        description: 'World-class universities with affordable education and excellent post-graduation opportunities. Known for multicultural environment and high quality of life.',
+        image: 'assets/img/canada.png',
+        features: [
+          'Affordable tuition fees',
+          'Post-graduation work permits',
+          'Multicultural society',
+          'High quality education'
+        ]
+      },
+      'uk': {
+        name: 'United Kingdom',
+        description: 'Prestigious universities with rich academic traditions and global recognition. Home to Oxford, Cambridge, and other world-renowned institutions.',
+        image: 'assets/img/uk.png',
+        features: [
+          'Prestigious universities',
+          'Rich academic heritage',
+          'Global recognition',
+          'Research excellence'
+        ]
+      },
+      'usa': {
+        name: 'United States',
+        description: 'Top-ranked universities offering diverse programs and cutting-edge research opportunities. Home to Harvard, MIT, Stanford, and other elite institutions.',
+        image: 'assets/img/usa.webp',
+        features: [
+          'Top-ranked universities',
+          'Diverse programs',
+          'Research opportunities',
+          'Innovation focus'
+        ]
+      },
+      'australia': {
+        name: 'Australia',
+        description: 'High-quality education with beautiful campuses and strong industry connections. Known for excellent student support and work opportunities.',
+        image: 'assets/img/2.webp',
+        features: [
+          'High-quality education',
+          'Beautiful campuses',
+          'Industry connections',
+          'Student support'
+        ]
+      },
+      'germany': {
+        name: 'Germany',
+        description: 'Tuition-free education at public universities with world-class engineering programs. Strong focus on research and innovation.',
+        image: 'assets/img/germany.webp',
+        features: [
+          'Tuition-free education',
+          'Engineering excellence',
+          'Research focus',
+          'Innovation hub'
+        ]
+      },
+      'france': {
+        name: 'France',
+        description: 'Rich cultural heritage with world-class universities and affordable education. Known for art, fashion, and business programs.',
+        image: 'assets/img/3.avif',
+        features: [
+          'Cultural experience',
+          'Affordable education',
+          'Art & fashion programs',
+          'Business excellence'
+        ]
+      },
+      'netherlands': {
+        name: 'Netherlands',
+        description: 'Innovative education system with English-taught programs and strong focus on research. Known for technology and engineering excellence.',
+        image: 'assets/img/malaysia.jpg',
+        features: [
+          'English-taught programs',
+          'Technology focus',
+          'Research excellence',
+          'Innovation culture'
+        ]
+      },
+      'sweden': {
+        name: 'Sweden',
+        description: 'High-quality education with focus on sustainability and innovation. Known for engineering, technology, and design programs.',
+        image: 'assets/img/services.jpg',
+        features: [
+          'Sustainability focus',
+          'Engineering excellence',
+          'Design programs',
+          'Innovation culture'
+        ]
+      },
+      'ireland': {
+        name: 'Ireland',
+        description: 'Friendly and welcoming environment with excellent universities. Known for technology, business, and literature programs.',
+        image: 'assets/img/1.jpg',
+        features: [
+          'Friendly environment',
+          'Technology programs',
+          'Business excellence',
+          'Literature programs'
+        ]
+      },
+      'china': {
+        name: 'China',
+        description: 'Rapidly growing education hub with world-class universities and affordable tuition. Known for technology, engineering, and business programs.',
+        image: 'assets/img/china.png',
+        features: [
+          'Affordable education',
+          'Technology focus',
+          'Growing economy',
+          'Cultural experience'
+        ]
+      }
+    };
+
+    // Handle country selection from URL hash
+    document.addEventListener('DOMContentLoaded', function() {
+      const hash = window.location.hash;
+      if (hash) {
+        const countryId = hash.substring(1);
+        showCountryDetails(countryId);
+      }
+      
+      // Add click handlers to country cards
+      const countryCards = document.querySelectorAll('.destination-card');
+      countryCards.forEach(card => {
+        card.addEventListener('click', function() {
+          const countryId = this.closest('[id]').id;
+          showCountryDetails(countryId);
+        });
+      });
+    });
+
+    function showCountryDetails(countryId) {
+      const country = countryData[countryId];
+      if (country) {
+        const detailsSection = document.getElementById('selected-country-details');
+        if (detailsSection) {
+          detailsSection.style.display = 'block';
+          
+          // Populate the details
+          document.getElementById('selected-country-name').textContent = country.name;
+          document.getElementById('selected-country-description').textContent = country.description;
+          document.getElementById('selected-country-image').src = country.image;
+          document.getElementById('selected-country-image').alt = country.name;
+          
+          // Populate features
+          const featuresContainer = document.getElementById('selected-country-features');
+          featuresContainer.innerHTML = '';
+          country.features.forEach(feature => {
+            const featureItem = document.createElement('div');
+            featureItem.innerHTML = `<i class="bi bi-check-circle"></i> ${feature}`;
+            featureItem.style.padding = '0.5rem 0';
+            featureItem.style.color = 'var(--text-color)';
+            featureItem.style.display = 'flex';
+            featureItem.style.alignItems = 'center';
+            featuresContainer.appendChild(featureItem);
+          });
+          
+          // Scroll to the details section
+          detailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+  </script>
+</body>
+</html>

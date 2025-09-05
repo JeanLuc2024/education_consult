@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Test - Modern Education Consult</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .image-test { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .image-test img { max-width: 300px; height: 200px; object-fit: cover; border: 2px solid #ccc; }
+        .status { margin-left: 10px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Image Test Page</h1>
+    <p>Testing all images used in the website:</p>
+
+    <div class="image-test">
+        <h3>Hero Image</h3>
+        <img src="assets/img/1.jpg" alt="Hero Image" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <div class="image-test">
+        <h3>Service Image 1</h3>
+        <img src="assets/img/2.webp" alt="Service Image 1" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <div class="image-test">
+        <h3>Service Image 2</h3>
+        <img src="assets/img/3.avif" alt="Service Image 2" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <div class="image-test">
+        <h3>Service Image 3</h3>
+        <img src="assets/img/services.jpg" alt="Service Image 3" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <div class="image-test">
+        <h3>Canada</h3>
+        <img src="assets/img/canada.png" alt="Canada" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <div class="image-test">
+        <h3>UK</h3>
+        <img src="assets/img/uk.png" alt="UK" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <div class="image-test">
+        <h3>USA</h3>
+        <img src="assets/img/usa.webp" alt="USA" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <div class="image-test">
+        <h3>Germany</h3>
+        <img src="assets/img/germany.webp" alt="Germany" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <div class="image-test">
+        <h3>China</h3>
+        <img src="assets/img/china.png" alt="China" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+        <span class="status">Loading...</span>
+    </div>
+
+    <p><a href="index.html">← Back to Homepage</a></p>
+</body>
+</html>

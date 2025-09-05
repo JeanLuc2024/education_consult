@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Image Placeholder Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .country-card {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        .country-image {
+            width: 400px;
+            height: 300px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .download-btn {
+            background: #0d83fd;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .download-btn:hover {
+            background: #0a6bc7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Country Image Placeholder Generator</h1>
+        
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <p>1. Right-click on each country image below</p>
+            <p>2. Select "Save image as..."</p>
+            <p>3. Save to: <code>assets/img/countries/</code> folder</p>
+            <p>4. Use the exact filename shown below each image</p>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);">
+                🇨🇦 CANADA
+            </div>
+            <p><strong>Filename:</strong> canada.jpg</p>
+            <button class="download-btn" onclick="downloadImage('canada')">Download Canada Image</button>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #74b9ff, #0984e3);">
+                🇬🇧 UNITED KINGDOM
+            </div>
+            <p><strong>Filename:</strong> uk.jpg</p>
+            <button class="download-btn" onclick="downloadImage('uk')">Download UK Image</button>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #fd79a8, #e84393);">
+                🇺🇸 UNITED STATES
+            </div>
+            <p><strong>Filename:</strong> usa.jpg</p>
+            <button class="download-btn" onclick="downloadImage('usa')">Download USA Image</button>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #00b894, #00a085);">
+                🇦🇺 AUSTRALIA
+            </div>
+            <p><strong>Filename:</strong> australia.jpg</p>
+            <button class="download-btn" onclick="downloadImage('australia')">Download Australia Image</button>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #6c5ce7, #5f3dc4);">
+                🇩🇪 GERMANY
+            </div>
+            <p><strong>Filename:</strong> germany.jpg</p>
+            <button class="download-btn" onclick="downloadImage('germany')">Download Germany Image</button>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);">
+                🇫🇷 FRANCE
+            </div>
+            <p><strong>Filename:</strong> france.jpg</p>
+            <button class="download-btn" onclick="downloadImage('france')">Download France Image</button>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #fd79a8, #fdcb6e);">
+                🇳🇱 NETHERLANDS
+            </div>
+            <p><strong>Filename:</strong> netherlands.jpg</p>
+            <button class="download-btn" onclick="downloadImage('netherlands')">Download Netherlands Image</button>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #00cec9, #00b894);">
+                🇸🇪 SWEDEN
+            </div>
+            <p><strong>Filename:</strong> sweden.jpg</p>
+            <button class="download-btn" onclick="downloadImage('sweden')">Download Sweden Image</button>
+        </div>
+
+        <div class="country-card">
+            <div class="country-image" style="background: linear-gradient(135deg, #00b894, #00a085);">
+                🇮🇪 IRELAND
+            </div>
+            <p><strong>Filename:</strong> ireland.jpg</p>
+            <button class="download-btn" onclick="downloadImage('ireland')">Download Ireland Image</button>
+        </div>
+    </div>
+
+    <script>
+        function downloadImage(country) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 400;
+            canvas.height = 300;
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 400, 300);
+            const colors = {
+                'canada': ['#ff6b6b', '#ee5a24'],
+                'uk': ['#74b9ff', '#0984e3'],
+                'usa': ['#fd79a8', '#e84393'],
+                'australia': ['#00b894', '#00a085'],
+                'germany': ['#6c5ce7', '#5f3dc4'],
+                'france': ['#a29bfe', '#6c5ce7'],
+                'netherlands': ['#fd79a8', '#fdcb6e'],
+                'sweden': ['#00cec9', '#00b894'],
+                'ireland': ['#00b894', '#00a085']
+            };
+            
+            gradient.addColorStop(0, colors[country][0]);
+            gradient.addColorStop(1, colors[country][1]);
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 400, 300);
+            
+            // Add text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(country.toUpperCase(), 200, 150);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = country + '.jpg';
+            link.href = canvas.toDataURL('image/jpeg');
+            link.click();
+        }
+    </script>
+</body>
+</html>
