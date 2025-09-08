@@ -53,14 +53,9 @@
           <li><a href="#about">About Us</a></li>
           <li><a href="#services">Services</a></li>
           <li class="dropdown"><a href="#"><span>Destinations</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
+            <ul id="destinations-dropdown">
               <li><a href="destinations.html">All Destinations</a></li>
-              <li><a href="destinations.html#canada">Canada</a></li>
-              <li><a href="destinations.html#uk">United Kingdom</a></li>
-              <li><a href="destinations.html#usa">United States</a></li>
-              <li><a href="destinations.html#australia">Australia</a></li>
-              <li><a href="destinations.html#germany">Germany</a></li>
-              <li><a href="destinations.html#malaysia">Malaysia</a></li>
+              <!-- Destinations will be loaded dynamically -->
             </ul>
           </li>
           <li><a href="#contact">Contact</a></li>
@@ -1091,6 +1086,38 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    // Load destinations dynamically
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('get-destinations.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const dropdown = document.getElementById('destinations-dropdown');
+            if (dropdown) {
+              // Keep the "All Destinations" link
+              const allDestinationsLink = dropdown.querySelector('li:first-child');
+              dropdown.innerHTML = '';
+              dropdown.appendChild(allDestinationsLink);
+              
+              // Add each destination
+              data.destinations.forEach(destination => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `destinations.html#${destination.slug}`;
+                a.textContent = destination.name;
+                li.appendChild(a);
+                dropdown.appendChild(li);
+              });
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error loading destinations:', error);
+        });
+    });
+  </script>
 
 </body>
 

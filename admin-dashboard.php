@@ -121,6 +121,10 @@ try {
                             <i class="bi bi-people me-2"></i>
                             Students
                         </a>
+                        <a href="admin-destinations.php" class="sidebar-link">
+                            <i class="bi bi-globe me-2"></i>
+                            Destinations
+                        </a>
                         <a href="admin-inquiries.php" class="sidebar-link">
                             <i class="bi bi-envelope me-2"></i>
                             Inquiries
