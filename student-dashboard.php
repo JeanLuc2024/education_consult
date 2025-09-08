@@ -99,11 +99,11 @@ $user = $stmt->fetch();
                             <i class="bi bi-cloud-upload me-2"></i>
                             Documents
                         </a>
-                        <a href="#profile" class="sidebar-link" onclick="showSection('profile', this)">
                         <a href="#replies" class="sidebar-link" onclick="showSection('replies', this)">
                             <i class="bi bi-chat-dots me-2"></i>
                             Admin Replies
                         </a>
+                        <a href="#profile" class="sidebar-link" onclick="showSection('profile', this)">
                             <i class="bi bi-person me-2"></i>
                             Profile
                         </a>
@@ -157,11 +157,7 @@ $user = $stmt->fetch();
                                                 <option value="United States">United States</option>
                                                 <option value="Australia">Australia</option>
                                                 <option value="Germany">Germany</option>
-                                                <option value="France">France</option>
-                                                <option value="Netherlands">Netherlands</option>
-                                                <option value="Sweden">Sweden</option>
-                                                <option value="Ireland">Ireland</option>
-                                                <option value="China">China</option>
+                                                <option value="Malaysia">Malaysia</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -234,30 +230,46 @@ $user = $stmt->fetch();
                                 </button>
                             </div>
                         <?php else: ?>
-                            <div class="row">
-                                <?php foreach ($applications as $app): ?>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card application-card h-100">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                                    <h5 class="card-title"><?php echo htmlspecialchars($app['university_name']); ?></h5>
-                                                    <span class="badge bg-<?php echo $app['status'] === 'approved' ? 'success' : ($app['status'] === 'rejected' ? 'danger' : 'warning'); ?>">
-                                                        <?php echo ucfirst(str_replace('_', ' ', $app['status'])); ?>
-                                                    </span>
-                                                </div>
-                                                <p class="card-text"><strong>Program:</strong> <?php echo htmlspecialchars($app['program_name']); ?></p>
-                                                <p class="card-text"><strong>Country:</strong> <?php echo htmlspecialchars($app['country']); ?></p>
-                                                <p class="card-text"><small class="text-muted">Applied: <?php echo date('M d, Y', strtotime($app['created_at'])); ?></small></p>
-                                                <div class="mt-3">
-                                                    <button class="btn btn-outline-primary btn-sm" onclick="viewApplication(<?php echo $app['id']; ?>)">
-                                                        <i class="bi bi-eye me-1"></i>
-                                                        View Details
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
+                            <!-- Applications Table -->
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>University</th>
+                                            <th>Program</th>
+                                            <th>Country</th>
+                                            <th>Status</th>
+                                            <th>Applied</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($applications as $app): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($app['university_name']); ?></td>
+                                            <td><?php echo htmlspecialchars($app['program_name']); ?></td>
+                                            <td><?php echo htmlspecialchars($app['country']); ?></td>
+                                            <td>
+                                                <span class="badge bg-<?php echo $app['status'] === 'approved' ? 'success' : ($app['status'] === 'rejected' ? 'danger' : 'warning'); ?>">
+                                                    <?php echo ucfirst(str_replace('_', ' ', $app['status'])); ?>
+                                                </span>
+                                            </td>
+                                            <td><?php echo date('M d, Y', strtotime($app['created_at'])); ?></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-info" onclick="viewApplication(<?php echo $app['id']; ?>)">
+                                                    <i class="bi bi-eye me-1"></i>View Details
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-warning" onclick="editApplication(<?php echo $app['id']; ?>)">
+                                                    <i class="bi bi-pencil me-1"></i>Edit
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteApplication(<?php echo $app['id']; ?>)">
+                                                    <i class="bi bi-trash me-1"></i>Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -319,72 +331,11 @@ $user = $stmt->fetch();
                                                 <td><?php echo date('M d, Y', strtotime($doc['uploaded_at'])); ?></td>
                                                 <td><?php echo round($doc['file_size'] / 1024, 2); ?> KB</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="downloadDocument(<?php echo $doc['id']; ?>)">
-                                                        <i class="bi bi-download"></i>
-                                                    </button>
                                                     <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument(<?php echo $doc['id']; ?>)">
-                                                        <i class="bi bi-trash"></i>
+                                                        <i class="bi bi-trash"></i> Delete
                                                     </button>
                                                 </td>
                                             </tr>
-                        <!-- Applications Table (add View Details) -->
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>University</th>
-                                        <th>Program</th>
-                                        <th>Country</th>
-                                        <th>Status</th>
-                                        <th>Applied</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($applications as $app): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($app['university_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($app['program_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($app['country']); ?></td>
-                                        <td><?php echo ucfirst(str_replace('_', ' ', $app['status'])); ?></td>
-                                        <td><?php echo date('M d, Y', strtotime($app['created_at'])); ?></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-info" onclick="showAppDetails(<?php echo htmlspecialchars(json_encode($app), ENT_QUOTES, 'UTF-8'); ?>)">View Details</button>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-        <!-- Application Details Modal -->
-        <div class="modal fade" id="appDetailsModal" tabindex="-1" aria-labelledby="appDetailsModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="appDetailsModalLabel">Application Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="appDetailsBody">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            function showAppDetails(app) {
-                let html = '';
-                html += `<strong>University:</strong> ${app.university_name}<br>`;
-                html += `<strong>Program:</strong> ${app.program_name}<br>`;
-                html += `<strong>Country:</strong> ${app.country}<br>`;
-                html += `<strong>Degree:</strong> ${app.academic_degree}<br>`;
-                html += `<strong>Status:</strong> ${app.status}<br>`;
-                html += `<strong>Applied:</strong> ${app.created_at}<br>`;
-                if (app.notes) html += `<strong>Notes:</strong> ${app.notes}<br>`;
-                document.getElementById('appDetailsBody').innerHTML = html;
-                var modal = new bootstrap.Modal(document.getElementById('appDetailsModal'));
-                modal.show();
-            }
-        </script>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
@@ -394,24 +345,40 @@ $user = $stmt->fetch();
 
                     <!-- Replies Section -->
                     <div id="replies-section" class="student-section" style="display: none;">
-                        <h3>Admin Replies to Your Inquiries</h3>
+                        <h3>Admin Messages</h3>
                         <?php
-                        $stmt = $pdo->prepare("SELECT * FROM inquiries WHERE email = ? AND status = 'contacted' ORDER BY created_at DESC");
-                        $stmt->execute([$user['email']]);
-                        $replies = $stmt->fetchAll();
-                        if (empty($replies)) {
-                            echo '<div class="alert alert-info">No replies from admin yet.</div>';
+                        // Get admin messages for this student
+                        $stmt = $pdo->prepare("
+                            SELECT am.*, u.first_name, u.last_name 
+                            FROM admin_messages am 
+                            JOIN users u ON am.admin_id = u.id 
+                            WHERE am.student_id = ? 
+                            ORDER BY am.created_at DESC
+                        ");
+                        $stmt->execute([$_SESSION['user_id']]);
+                        $messages = $stmt->fetchAll();
+                        
+                        if (empty($messages)) {
+                            echo '<div class="alert alert-info">No messages from admin yet.</div>';
                         } else {
-                            echo '<div class="list-group">';
-                            foreach ($replies as $reply) {
-                                $adminReply = explode('| Admin Reply: ', $reply['subject'])[1] ?? '';
-                                echo '<div class="list-group-item">';
-                                echo '<strong>Inquiry:</strong> ' . htmlspecialchars($reply['message']) . '<br>';
-                                echo '<strong>Admin Reply:</strong> ' . htmlspecialchars($adminReply) . '<br>';
-                                echo '<small class="text-muted">Replied on: ' . date('M d, Y', strtotime($reply['created_at'])) . '</small>';
-                                echo '</div>';
+                            echo '<div class="table-responsive">';
+                            echo '<table class="table table-striped">';
+                            echo '<thead><tr><th>Subject</th><th>Message</th><th>From</th><th>Date</th><th>Actions</th></tr></thead>';
+                            echo '<tbody>';
+                            foreach ($messages as $message) {
+                                echo '<tr>';
+                                echo '<td>' . htmlspecialchars($message['subject']) . '</td>';
+                                echo '<td>' . htmlspecialchars($message['message']) . '</td>';
+                                echo '<td>' . htmlspecialchars($message['first_name'] . ' ' . $message['last_name']) . '</td>';
+                                echo '<td>' . date('M d, Y H:i', strtotime($message['created_at'])) . '</td>';
+                                echo '<td>';
+                                echo '<button class="btn btn-sm btn-outline-danger" onclick="deleteMessage(' . $message['id'] . ')">';
+                                echo '<i class="bi bi-trash"></i> Delete';
+                                echo '</button>';
+                                echo '</td>';
+                                echo '</tr>';
                             }
-                            echo '</div>';
+                            echo '</tbody></table></div>';
                         }
                         ?>
                     </div>
@@ -442,6 +409,22 @@ $user = $stmt->fetch();
                                                 <label class="form-label">Phone</label>
                                                 <input type="tel" class="form-control" name="phone" value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>">
                                             </div>
+                                            
+                                            <hr>
+                                            <h6>Change Password (Optional)</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">Current Password</label>
+                                                <input type="password" class="form-control" name="current_password" placeholder="Enter current password">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">New Password</label>
+                                                <input type="password" class="form-control" name="new_password" placeholder="Enter new password">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Confirm New Password</label>
+                                                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm new password">
+                                            </div>
+                                            
                                             <button type="submit" class="btn btn-primary">
                                                 <i class="bi bi-check-circle me-1"></i>
                                                 Update Profile
@@ -466,6 +449,24 @@ $user = $stmt->fetch();
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Details Modal -->
+    <div class="modal fade" id="applicationDetailsModal" tabindex="-1" aria-labelledby="applicationDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="applicationDetailsModalLabel">Application Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="applicationDetailsBody">
+                    <!-- Application details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -496,6 +497,7 @@ $user = $stmt->fetch();
             const titles = {
                 'applications': 'My Applications',
                 'documents': 'Document Management',
+                'replies': 'Admin Replies',
                 'profile': 'My Profile'
             };
             const titleElement = document.getElementById('section-title');
@@ -518,16 +520,152 @@ $user = $stmt->fetch();
         }
 
         function viewApplication(appId) {
-            alert('Application details for ID: ' + appId + '\n\nThis feature will show detailed application information.');
+            // Fetch application details via AJAX
+            fetch(`get-application-details.php?id=${appId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showApplicationModal(data.application);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error loading application details');
+                });
         }
 
-        function downloadDocument(docId) {
-            alert('Download document ID: ' + docId + '\n\nThis feature will download the document.');
+        function showApplicationModal(app) {
+            const modal = new bootstrap.Modal(document.getElementById('applicationDetailsModal'));
+            document.getElementById('applicationDetailsBody').innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>University Information</h6>
+                        <p><strong>University:</strong> ${app.university_name}</p>
+                        <p><strong>Program:</strong> ${app.program_name}</p>
+                        <p><strong>Country:</strong> ${app.country}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Application Details</h6>
+                        <p><strong>Degree:</strong> ${app.academic_degree || 'Not specified'}</p>
+                        <p><strong>Start Year:</strong> ${app.start_year || 'Not specified'}</p>
+                        <p><strong>Semester:</strong> ${app.start_semester || 'Not specified'}</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h6>Status & Timeline</h6>
+                        <p><strong>Status:</strong> <span class="badge bg-${app.status === 'approved' ? 'success' : (app.status === 'rejected' ? 'danger' : 'warning')}">${app.status.replace('_', ' ').toUpperCase()}</span></p>
+                        <p><strong>Applied:</strong> ${new Date(app.created_at).toLocaleDateString()}</p>
+                        <p><strong>Last Updated:</strong> ${new Date(app.updated_at).toLocaleDateString()}</p>
+                    </div>
+                </div>
+                ${app.notes ? `<div class="row mt-3"><div class="col-12"><h6>Notes</h6><p>${app.notes}</p></div></div>` : ''}
+            `;
+            modal.show();
+        }
+
+        function editApplication(appId) {
+            // Fetch application details and populate form
+            fetch(`get-application-details.php?id=${appId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const app = data.application;
+                        // Populate form fields
+                        document.querySelector('select[name="country"]').value = app.country;
+                        document.querySelector('input[name="university_name"]').value = app.university_name;
+                        document.querySelector('input[name="program_name"]').value = app.program_name;
+                        document.querySelector('select[name="academic_degree"]').value = app.academic_degree;
+                        document.querySelector('select[name="start_year"]').value = app.start_year;
+                        document.querySelector('select[name="start_semester"]').value = app.start_semester;
+                        document.querySelector('textarea[name="notes"]').value = app.notes || '';
+                        
+                        // Show form and add hidden field for update
+                        const form = document.getElementById('newApplicationForm');
+                        form.innerHTML += `<input type="hidden" name="application_id" value="${appId}">`;
+                        form.querySelector('button[type="submit"]').innerHTML = '<i class="bi bi-check-circle me-1"></i>Update Application';
+                        
+                        document.getElementById('application-form').style.display = 'block';
+                        document.getElementById('application-form').scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error loading application details');
+                });
+        }
+
+        function deleteApplication(appId) {
+            if (confirm('Are you sure you want to delete this application? This action cannot be undone.')) {
+                fetch('delete-application.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({id: appId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Application deleted successfully!');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error deleting application');
+                });
+            }
         }
 
         function deleteDocument(docId) {
             if (confirm('Are you sure you want to delete this document?')) {
-                alert('Delete document ID: ' + docId + '\n\nThis feature will delete the document.');
+                fetch('delete-document.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({id: docId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Document deleted successfully!');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error deleting document');
+                });
+            }
+        }
+
+        function deleteMessage(messageId) {
+            if (confirm('Are you sure you want to delete this message?')) {
+                fetch('delete-message.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({id: messageId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Message deleted successfully!');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error deleting message');
+                });
             }
         }
 
@@ -545,13 +683,14 @@ $user = $stmt->fetch();
                 if (result.status === 'success') {
                     alert('Document uploaded successfully!');
                     this.reset();
-                    loadDocuments(); // Reload documents list
+                    location.reload();
                 } else {
                     alert('Error: ' + result.message);
                 }
             })
             .catch(error => {
-                alert('Error uploading document. Please try again.');
+                console.error('Fetch error:', error);
+                alert('Error uploading document: ' + error.message);
             });
         });
 

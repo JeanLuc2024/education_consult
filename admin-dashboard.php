@@ -121,13 +121,13 @@ try {
                             <i class="bi bi-people me-2"></i>
                             Students
                         </a>
-                        <a href="admin-applications.php" class="sidebar-link">
-                            <i class="bi bi-file-text me-2"></i>
-                            Applications
-                        </a>
                         <a href="admin-inquiries.php" class="sidebar-link">
                             <i class="bi bi-envelope me-2"></i>
                             Inquiries
+                        </a>
+                        <a href="#profile" class="sidebar-link" onclick="showAdminProfile()">
+                            <i class="bi bi-person me-2"></i>
+                            Profile
                         </a>
                         <a href="logout.php" class="sidebar-link">
                             <i class="bi bi-box-arrow-right me-2"></i>

@@ -33,7 +33,7 @@ if ($params) {
     $applications = $stmt->fetchAll();
 }
 
-// Handle status update
+// Handle status update and messaging
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'update_status') {
         $app_id = $_POST['application_id'];
@@ -52,6 +52,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             ");
             $stmt->execute([$app_id, $new_status, $_SESSION['user_id'], $admin_message]);
             
+            // Send message to student if admin_message is provided
+            if (!empty($admin_message)) {
+                $stmt = $pdo->prepare("
+                    INSERT INTO admin_messages (student_id, admin_id, application_id, subject, message) 
+                    VALUES (?, ?, ?, ?, ?)
+                ");
+                $subject = "Update on your application - " . $new_status;
+                $stmt->execute([
+                    $_POST['student_id'],
+                    $_SESSION['user_id'],
+                    $app_id,
+                    $subject,
+                    $admin_message
+                ]);
+            }
+            
             $success = 'Application status updated successfully';
         } catch (Exception $e) {
             $error = 'Error updating status: ' . $e->getMessage();
@@ -67,7 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     <title>Manage Applications - Admin Panel</title>
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
     <style>
+        .admin-content {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
         .application-card {
             border-left: 4px solid #0d83fd;
         }
@@ -81,7 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <?php include 'admin-sidebar.php'; ?>
+            <div class="col-md-9 col-lg-10 admin-content">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>Manage Applications</h2>
                     <a href="admin-dashboard.php" class="btn btn-outline-primary">
@@ -128,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                     <form method="POST" class="mt-3">
                                         <input type="hidden" name="action" value="update_status">
                                         <input type="hidden" name="application_id" value="<?php echo $app['id']; ?>">
+                                        <input type="hidden" name="student_id" value="<?php echo $app['student_id']; ?>">
                                         
                                         <div class="row">
                                             <div class="col-md-6 mb-2">
@@ -146,6 +169,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                         
                                         <div class="mt-2">
                                             <textarea class="form-control form-control-sm" name="admin_message" rows="2" placeholder="Message to student (optional)"></textarea>
+                                        </div>
+                                        <div class="mt-2">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="bi bi-send me-1"></i>
+                                                Send Message
+                                            </button>
                                         </div>
                                     </form>
                                 </div>

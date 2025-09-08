@@ -29,11 +29,19 @@ $students = $stmt->fetchAll();
     <title>Manage Students - Admin Panel</title>
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
+    <style>
+        .admin-content {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <?php include 'admin-sidebar.php'; ?>
+            <div class="col-md-9 col-lg-10 admin-content">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>Manage Students</h2>
                     <a href="admin-dashboard.php" class="btn btn-outline-primary">
@@ -91,6 +99,10 @@ $students = $stmt->fetchAll();
                                                    class="btn btn-sm btn-outline-primary">
                                                     View Applications
                                                 </a>
+                                                <button class="btn btn-sm btn-outline-info ms-1" 
+                                                        onclick="viewStudentDocuments(<?php echo $student['id']; ?>)">
+                                                    <i class="bi bi-file-earmark me-1"></i>Documents
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -102,5 +114,72 @@ $students = $stmt->fetchAll();
             </div>
         </div>
     </div>
+
+    <!-- Student Documents Modal -->
+    <div class="modal fade" id="studentDocumentsModal" tabindex="-1" aria-labelledby="studentDocumentsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentDocumentsModalLabel">Student Documents</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="studentDocumentsBody">
+                    <!-- Documents will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function viewStudentDocuments(studentId) {
+            fetch(`get-student-documents.php?student_id=${studentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showStudentDocumentsModal(data.documents, data.student_name);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error loading documents: ' + error.message);
+                });
+        }
+
+        function showStudentDocumentsModal(documents, studentName) {
+            const modal = new bootstrap.Modal(document.getElementById('studentDocumentsModal'));
+            document.getElementById('studentDocumentsModalLabel').textContent = `Documents - ${studentName}`;
+            
+            let html = '';
+            if (documents.length === 0) {
+                html = '<div class="alert alert-info">No documents uploaded yet.</div>';
+            } else {
+                html = '<div class="table-responsive"><table class="table table-striped">';
+                html += '<thead><tr><th>Document Type</th><th>Filename</th><th>Upload Date</th><th>Size</th><th>Actions</th></tr></thead>';
+                html += '<tbody>';
+                documents.forEach(doc => {
+                    html += `<tr>
+                        <td>${doc.document_type.replace('_', ' ').toUpperCase()}</td>
+                        <td>${doc.original_filename}</td>
+                        <td>${new Date(doc.uploaded_at).toLocaleDateString()}</td>
+                        <td>${Math.round(doc.file_size / 1024)} KB</td>
+                        <td>
+                            <a href="uploads/documents/${doc.filename}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table></div>';
+            }
+            
+            document.getElementById('studentDocumentsBody').innerHTML = html;
+            modal.show();
+        }
+    </script>
 </body>
 </html>

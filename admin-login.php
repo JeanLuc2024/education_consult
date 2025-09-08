@@ -62,6 +62,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+        body {
+            background: linear-gradient(135deg, rgba(13, 131, 253, 0.7) 0%, rgba(45, 70, 94, 0.7) 100%), url('assets/img/22.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
         .admin-header {
             background: linear-gradient(135deg, #0d83fd, #2d465e);
             color: white;

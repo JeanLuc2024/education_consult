@@ -1,261 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Service Details - iLanding Bootstrap Template</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <title>Our Services - Modern Education Consult</title>
+  <meta content="Comprehensive education consultancy services for international students" name="description">
+  <meta content="study abroad, visa support, scholarship assistance, accommodation" name="keywords">
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: iLanding
-  * Template URL: https://bootstrapmade.com/ilanding-bootstrap-landing-page-template/
-  * Updated: Nov 12 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <style>
+    .service-hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 100px 0 60px;
+    }
+    .service-card {
+      background: white;
+      border-radius: 15px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      transition: transform 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+    .service-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .service-icon i {
+      font-size: 2rem;
+      color: white;
+    }
+  </style>
 </head>
 
-<body class="service-details-page">
-
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">iLanding</h1>
-      </a>
-
-      <nav id="navmenu" class="navmenu">
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      <h1 class="logo"><a href="index.html">Modern Education Consult</a></h1>
+      <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a class="nav-link scrollto" href="index.html">Home</a></li>
+          <li><a class="nav-link scrollto" href="index.html#about">About</a></li>
+          <li><a class="nav-link scrollto active" href="index.html#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="destinations.html">Destinations</a></li>
+          <li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>
+          <li><a class="getstarted scrollto" href="student-portal.php">Student Portal</a></li>
         </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
-
-      <a class="btn-getstarted" href="index.html#about">Get Started</a>
-
     </div>
   </header>
 
-  <main class="main">
-
-    <!-- Page Title -->
-    <div class="page-title light-background">
+  <!-- ======= Service Hero Section ======= -->
+  <section class="service-hero">
       <div class="container">
-        <h1>Service Details</h1>
-        <nav class="breadcrumbs">
-          <ol>
-            <li><a href="index.html">Home</a></li>
-            <li class="current">Service Details</li>
-          </ol>
-        </nav>
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1>Our Comprehensive Services</h1>
+          <p class="lead">We provide end-to-end support for your international education journey</p>
+        </div>
       </div>
-    </div><!-- End Page Title -->
+    </div>
+  </section>
 
-    <!-- Service Details Section -->
-    <section id="service-details" class="service-details section">
-
+  <!-- ======= Services Details Section ======= -->
+  <section id="services-details" class="services-details">
       <div class="container">
-
-        <div class="row gy-5">
-
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="service-box">
-              <h4>Serices List</h4>
-              <div class="services-list">
-                <a href="#" class="active"><i class="bi bi-arrow-right-circle"></i><span>Web Design</span></a>
-                <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Web Design</span></a>
-                <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Product Management</span></a>
-                <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Graphic Design</span></a>
-                <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Marketing</span></a>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="service-card">
+            <div class="row">
+              <div class="col-md-3 text-center">
+                <div class="service-icon">
+                  <i class="bi bi-mortarboard"></i>
+                </div>
               </div>
-            </div><!-- End Services List -->
-
-            <div class="service-box">
-              <h4>Download Catalog</h4>
-              <div class="download-catalog">
-                <a href="#"><i class="bi bi-filetype-pdf"></i><span>Catalog PDF</span></a>
-                <a href="#"><i class="bi bi-file-earmark-word"></i><span>Catalog DOC</span></a>
+              <div class="col-md-9">
+                <h2>Study Abroad Guidance</h2>
+                <p class="lead">Complete assistance in university selection, application preparation, and program matching based on your academic profile and career goals.</p>
+                
+                <h4>What We Offer:</h4>
+                <ul class="list-unstyled">
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> University and program selection based on your profile</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Application form completion and submission</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Personal statement and essay writing assistance</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Academic transcript evaluation and translation</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Interview preparation and mock sessions</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Career counseling and pathway planning</li>
+                </ul>
               </div>
-            </div><!-- End Services List -->
-
-            <div class="help-box d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-headset help-icon"></i>
-              <h4>Have a Question?</h4>
-              <p class="d-flex align-items-center mt-2 mb-0"><i class="bi bi-telephone me-2"></i> <span>+1 5589 55488 55</span></p>
-              <p class="d-flex align-items-center mt-1 mb-0"><i class="bi bi-envelope me-2"></i> <a href="mailto:contact@example.com">contact@example.com</a></p>
             </div>
-
           </div>
 
-          <div class="col-lg-8 ps-lg-5" data-aos="fade-up" data-aos-delay="200">
-            <img src="assets/img/services.jpg" alt="" class="img-fluid services-img">
-            <h3>Temporibus et in vero dicta aut eius lidero plastis trand lined voluptas dolorem ut voluptas</h3>
-            <p>
-              Blanditiis voluptate odit ex error ea sed officiis deserunt. Cupiditate non consequatur et doloremque consequuntur. Accusantium labore reprehenderit error temporibus saepe perferendis fuga doloribus vero. Qui omnis quo sit. Dolorem architecto eum et quos deleniti officia qui.
-            </p>
-            <ul>
-              <li><i class="bi bi-check-circle"></i> <span>Aut eum totam accusantium voluptatem.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Assumenda et porro nisi nihil nesciunt voluptatibus.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
+          <div class="service-card">
+            <div class="row">
+              <div class="col-md-3 text-center">
+                <div class="service-icon">
+                  <i class="bi bi-currency-dollar"></i>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <h2>Scholarship Assistance</h2>
+                <p class="lead">Expert help in identifying and applying for scholarships, grants, and financial aid opportunities to make your education affordable.</p>
+                
+                <h4>What We Offer:</h4>
+                <ul class="list-unstyled">
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Scholarship search and identification</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Application form completion and submission</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Essay and motivation letter writing</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Financial planning and budgeting assistance</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Grant application support</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Work-study program guidance</li>
             </ul>
-            <p>
-              Est reprehenderit voluptatem necessitatibus asperiores neque sed ea illo. Deleniti quam sequi optio iste veniam repellat odit. Aut pariatur itaque nesciunt fuga.
-            </p>
-            <p>
-              Sunt rem odit accusantium omnis perspiciatis officia. Laboriosam aut consequuntur recusandae mollitia doloremque est architecto cupiditate ullam. Quia est ut occaecati fuga. Distinctio ex repellendus eveniet velit sint quia sapiente cumque. Et ipsa perferendis ut nihil. Laboriosam vel voluptates tenetur nostrum. Eaque iusto cupiditate et totam et quia dolorum in. Sunt molestiae ipsum at consequatur vero. Architecto ut pariatur autem ad non cumque nesciunt qui maxime. Sunt eum quia impedit dolore alias explicabo ea.
-            </p>
+              </div>
+            </div>
           </div>
 
+          <div class="service-card">
+            <div class="row">
+              <div class="col-md-3 text-center">
+                <div class="service-icon">
+                  <i class="bi bi-passport"></i>
+                </div>
         </div>
-
+              <div class="col-md-9">
+                <h2>Student Visa Support</h2>
+                <p class="lead">Comprehensive visa application support including document preparation, interview guidance, and immigration compliance assistance.</p>
+                
+                <h4>What We Offer:</h4>
+                <ul class="list-unstyled">
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Visa application form completion</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Document preparation and verification</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Interview preparation and mock sessions</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Financial documentation assistance</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Medical examination guidance</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Post-arrival compliance support</li>
+                </ul>
+              </div>
       </div>
-
-    </section><!-- /Service Details Section -->
-
-  </main>
-
-  <footer id="footer" class="footer">
-
-    <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-4 col-md-6 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">iLanding</span>
-          </a>
-          <div class="footer-contact pt-3">
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-            <p><strong>Email:</strong> <span>info@example.com</span></p>
           </div>
-          <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
+
+          <div class="service-card">
+            <div class="row">
+              <div class="col-md-3 text-center">
+                <div class="service-icon">
+                  <i class="bi bi-house"></i>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <h2>Accommodation & Travel</h2>
+                <p class="lead">Assistance in finding suitable accommodation, travel arrangements, and pre-departure orientation for a smooth transition.</p>
+                
+                <h4>What We Offer:</h4>
+                <ul class="list-unstyled">
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> On-campus and off-campus housing search</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Accommodation booking and contracts</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Flight booking and travel arrangements</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Airport pickup and transfer services</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Pre-departure orientation sessions</li>
+                  <li><i class="bi bi-check-circle text-primary me-2"></i> Local area familiarization</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Useful Links</h4>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
-          </ul>
+  <!-- ======= CTA Section ======= -->
+  <section id="cta" class="cta">
+    <div class="container">
+      <div class="row" data-aos="zoom-in">
+        <div class="col-lg-9 text-center text-lg-start">
+          <h3>Ready to Start Your International Education Journey?</h3>
+          <p>Get personalized guidance from our expert consultants and make your dream of studying abroad a reality.</p>
+        </div>
+        <div class="col-lg-3 cta-btn-container text-center">
+          <a class="cta-btn align-middle" href="student-portal.php">Get Started Today</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>Modern Education Consult</h3>
+            <p>
+              A108 Adam Street <br>
+              New York, NY 535022<br>
+              United States <br><br>
+              <strong>Phone:</strong> +1 5589 55488 55<br>
+              <strong>Email:</strong> info@moderneducationconsult.com<br>
+            </p>
         </div>
 
-        <div class="col-lg-2 col-md-3 footer-links">
+          <div class="col-lg-2 col-md-6 footer-links">
           <h4>Our Services</h4>
           <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
+              <li><a href="#services">Study Abroad</a></li>
+              <li><a href="#services">Scholarships</a></li>
+              <li><a href="#services">Visa Support</a></li>
+              <li><a href="#services">Accommodation</a></li>
+              <li><a href="student-portal.php">Student Portal</a></li>
           </ul>
         </div>
 
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Hic solutasetp</h4>
-          <ul>
-            <li><a href="#">Molestiae accusamus iure</a></li>
-            <li><a href="#">Excepturi dignissimos</a></li>
-            <li><a href="#">Suscipit distinctio</a></li>
-            <li><a href="#">Dilecta</a></li>
-            <li><a href="#">Sit quas consectetur</a></li>
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Destinations</h4>
+            <ul>
+              <li><a href="destinations.html#canada">Canada</a></li>
+              <li><a href="destinations.html#uk">United Kingdom</a></li>
+              <li><a href="destinations.html#usa">United States</a></li>
+              <li><a href="destinations.html#australia">Australia</a></li>
+              <li><a href="destinations.html#germany">Germany</a></li>
           </ul>
         </div>
 
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Nobis illum</h4>
-          <ul>
-            <li><a href="#">Ipsam</a></li>
-            <li><a href="#">Laudantium dolorum</a></li>
-            <li><a href="#">Dinera</a></li>
-            <li><a href="#">Trodelas</a></li>
-            <li><a href="#">Flexo</a></li>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="index.html#about">About Us</a></li>
+              <li><a href="index.html#services">Services</a></li>
+              <li><a href="destinations.html">Destinations</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
           </ul>
         </div>
 
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Student Portal</h4>
+            <ul>
+              <li><a href="student-portal.php">Student Login</a></li>
+              <li><a href="admin-login.php">Admin Login</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">iLanding</strong> <span>All Rights Reserved</span></p>
+    <div class="container d-md-flex py-4">
+      <div class="me-md-auto text-center text-md-start">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Modern Education Consult</span></strong>. All Rights Reserved
+        </div>
       <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
         Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+      </div>
+      <div class="social-links text-center text-md-right pt-3 pt-md-0">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
       </div>
     </div>
-
   </footer>
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Main JS File -->
+  <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
 </body>
-
 </html>

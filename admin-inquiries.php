@@ -8,23 +8,17 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
     exit;
 }
 
-// Handle reply to inquiry
+// Handle delete inquiry
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    if ($_POST['action'] === 'reply') {
+    if ($_POST['action'] === 'delete_inquiry') {
         $inquiry_id = $_POST['inquiry_id'];
-        $reply_message = trim($_POST['reply_message']);
         
-        if (!empty($reply_message)) {
-            try {
-                // Store reply in a new table or as a status update (for now, just mark as contacted and store reply in a notes field)
-                $stmt = $pdo->prepare("UPDATE inquiries SET status = 'contacted', subject = CONCAT(subject, ' | Admin Reply: ', ?) WHERE id = ?");
-                $stmt->execute([$reply_message, $inquiry_id]);
-                $success = 'Reply sent successfully';
-            } catch (Exception $e) {
-                $error = 'Error sending reply: ' . $e->getMessage();
-            }
-        } else {
-            $error = 'Please enter a reply message';
+        try {
+            $stmt = $pdo->prepare("DELETE FROM inquiries WHERE id = ?");
+            $stmt->execute([$inquiry_id]);
+            $success = 'Inquiry deleted successfully';
+        } catch (Exception $e) {
+            $error = 'Error deleting inquiry: ' . $e->getMessage();
         }
     }
 }
@@ -44,11 +38,19 @@ $inquiries = $stmt->fetchAll();
     <title>Manage Inquiries - Admin Panel</title>
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
+    <style>
+        .admin-content {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <?php include 'admin-sidebar.php'; ?>
+            <div class="col-md-9 col-lg-10 admin-content">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>Manage Inquiries</h2>
                     <a href="admin-dashboard.php" class="btn btn-outline-primary">
@@ -75,7 +77,7 @@ $inquiries = $stmt->fetchAll();
                                         <small class="text-muted"><?php echo date('M d, Y H:i', strtotime($inquiry['created_at'])); ?></small>
                                     </div>
                                     
-                                    <p><strong>Email:</strong> <?php echo htmlspecialchars($inquiry['email']); ?></p>
+                                    <p><strong>Email:</strong> <a href="mailto:<?php echo htmlspecialchars($inquiry['email']); ?>" class="text-primary"><?php echo htmlspecialchars($inquiry['email']); ?></a></p>
                                     <p><strong>Phone:</strong> <?php echo htmlspecialchars($inquiry['phone'] ?? 'Not provided'); ?></p>
                                     <p><strong>Country Interest:</strong> <?php echo htmlspecialchars($inquiry['country_interest'] ?? 'Not specified'); ?></p>
                                     
@@ -84,22 +86,16 @@ $inquiries = $stmt->fetchAll();
                                         <p class="mt-1"><?php echo nl2br(htmlspecialchars($inquiry['message'])); ?></p>
                                     </div>
 
-                                    <?php if ($inquiry['status'] === 'contacted'): ?>
-                                        <div class="alert alert-info">
-                                            <strong>Your Reply:</strong>
-                                            <p class="mt-1 mb-0"><?php echo htmlspecialchars(explode('| Admin Reply: ', $inquiry['subject'])[1] ?? ''); ?></p>
-                                        </div>
-                                    <?php else: ?>
-                                        <form method="POST" class="mt-3">
-                                            <input type="hidden" name="action" value="reply">
-                                            <input type="hidden" name="inquiry_id" value="<?php echo $inquiry['id']; ?>">
-                                            <div class="mb-2">
-                                                <label class="form-label">Reply Message:</label>
-                                                <textarea class="form-control" name="reply_message" rows="3" required></textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary btn-sm">Send Reply</button>
-                                        </form>
-                                    <?php endif; ?>
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary btn-sm" onclick="openEmailClient('<?php echo htmlspecialchars($inquiry['email']); ?>', '<?php echo urlencode($inquiry['subject']); ?>', '<?php echo urlencode($inquiry['name']); ?>')">
+                                            <i class="bi bi-envelope me-1"></i>
+                                            Reply via Email
+                                        </button>
+                                        <button class="btn btn-danger btn-sm ms-2" onclick="deleteInquiry(<?php echo $inquiry['id']; ?>)">
+                                            <i class="bi bi-trash me-1"></i>
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,5 +104,40 @@ $inquiries = $stmt->fetchAll();
             </div>
         </div>
     </div>
+
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function deleteInquiry(inquiryId) {
+            if (confirm('Are you sure you want to delete this inquiry?')) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.innerHTML = `
+                    <input type="hidden" name="action" value="delete_inquiry">
+                    <input type="hidden" name="inquiry_id" value="${inquiryId}">
+                `;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        function openEmailClient(email, subject, name) {
+            const subjectLine = 'Re: ' + decodeURIComponent(subject);
+            const body = `Dear ${decodeURIComponent(name)},\n\n\n\nBest regards,\nModern Education Consult Team`;
+            
+            // Try to open Gmail first
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subjectLine)}&body=${encodeURIComponent(body)}`;
+            
+            // Try to open default email client
+            const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subjectLine)}&body=${encodeURIComponent(body)}`;
+            
+            // Open Gmail in new tab
+            window.open(gmailUrl, '_blank');
+            
+            // Also try to open default email client as fallback
+            setTimeout(() => {
+                window.location.href = mailtoUrl;
+            }, 1000);
+        }
+    </script>
 </body>
 </html>

@@ -28,34 +28,66 @@ foreach ($required_fields as $field) {
 }
 
 try {
-    // Insert application into database
-    $stmt = $pdo->prepare("
-        INSERT INTO applications (
-            student_id, 
-            country, 
-            university_name, 
-            program_name, 
-            academic_degree, 
-            start_year, 
-            start_semester, 
-            notes, 
-            status, 
-            created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'new', NOW())
-    ");
+    $application_id = $input['application_id'] ?? null;
     
-    $stmt->execute([
-        $_SESSION['user_id'],
-        $input['country'],
-        $input['university_name'],
-        $input['program_name'],
-        $input['academic_degree'],
-        $input['start_year'],
-        $input['start_semester'] ?? 'Fall',
-        $input['notes'] ?? ''
-    ]);
-    
-    echo json_encode(['status' => 'success', 'message' => 'Application submitted successfully']);
+    if ($application_id) {
+        // Update existing application
+        $stmt = $pdo->prepare("
+            UPDATE applications SET 
+                country = ?, 
+                university_name = ?, 
+                program_name = ?, 
+                academic_degree = ?, 
+                start_year = ?, 
+                start_semester = ?, 
+                notes = ?, 
+                updated_at = NOW()
+            WHERE id = ? AND student_id = ?
+        ");
+        
+        $stmt->execute([
+            $input['country'],
+            $input['university_name'],
+            $input['program_name'],
+            $input['academic_degree'],
+            $input['start_year'],
+            $input['start_semester'] ?? 'Fall',
+            $input['notes'] ?? '',
+            $application_id,
+            $_SESSION['user_id']
+        ]);
+        
+        echo json_encode(['status' => 'success', 'message' => 'Application updated successfully']);
+    } else {
+        // Insert new application
+        $stmt = $pdo->prepare("
+            INSERT INTO applications (
+                student_id, 
+                country, 
+                university_name, 
+                program_name, 
+                academic_degree, 
+                start_year, 
+                start_semester, 
+                notes, 
+                status, 
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'new', NOW())
+        ");
+        
+        $stmt->execute([
+            $_SESSION['user_id'],
+            $input['country'],
+            $input['university_name'],
+            $input['program_name'],
+            $input['academic_degree'],
+            $input['start_year'],
+            $input['start_semester'] ?? 'Fall',
+            $input['notes'] ?? ''
+        ]);
+        
+        echo json_encode(['status' => 'success', 'message' => 'Application submitted successfully']);
+    }
     
 } catch (Exception $e) {
     echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);

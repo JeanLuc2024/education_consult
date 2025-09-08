@@ -2,6 +2,10 @@
 session_start();
 require_once 'config/database.php';
 
+// Enable error reporting for debugging
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {

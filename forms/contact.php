@@ -66,8 +66,8 @@ try {
     $headers .= "Reply-To: $email\r\n";
     $headers .= "Content-Type: text/plain\r\n";
     
-            // Always show success immediately (no email delay)
-        echo json_encode(['status' => 'success', 'message' => 'Your consultation request has been received! We will contact you soon.']);
+    // Always show success immediately (no email delay)
+    echo 'OK';
     
 } catch (Exception $e) {
     echo json_encode(['status' => 'error', 'message' => 'An error occurred. Please try again later.']);
