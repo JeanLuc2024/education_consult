@@ -125,7 +125,7 @@ try {
                             <i class="bi bi-envelope me-2"></i>
                             Inquiries
                         </a>
-                        <a href="#profile" class="sidebar-link" onclick="showAdminProfile()">
+                        <a href="admin-profile.php" class="sidebar-link" onclick="showAdminProfile()">
                             <i class="bi bi-person me-2"></i>
                             Profile
                         </a>
@@ -489,7 +489,27 @@ try {
             // Add active class to clicked link
             event.target.closest('.sidebar-link').classList.add('active');
             
+            // Hide all sections
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            }
+        }
 
+        function showImageManager() {
+            const modal = new bootstrap.Modal(document.getElementById('imageManagerModal'));
+            const imageGrid = document.getElementById('imageGrid');
+            
+            // Sample images - in a real implementation, you'd fetch these from the server
+            const images = [
+                { name: 'Hero Image', path: 'assets/img/1.jpg' },
+                { name: 'About Image', path: 'assets/img/about-2.webp' },
+                { name: 'Service Image', path: 'assets/img/services.jpg' }
             ];
 
             imageGrid.innerHTML = '';
@@ -528,6 +548,10 @@ try {
 
         function showEmailSettings() {
             alert('Email settings:\n\nSMTP Server: localhost\nPort: 25\nFrom: noreply@moderneducationconsult.com\n\nNote: Configure your mail server in php.ini for production use.');
+        }
+
+        function showAdminProfile() {
+            showSection('profile');
         }
     </script>
 </body>

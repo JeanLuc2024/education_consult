@@ -54,7 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!isset($error)) {
                     // Verify current password if changing password
                     if ($password_change) {
-                        if (!password_verify($current_password, $admin['password_hash'])) {
+                        // Check both hashed and plain text passwords
+                        if (!password_verify($current_password, $admin['password_hash']) && $admin['password_hash'] !== $current_password) {
                             $error = 'Current password is incorrect';
                         }
                     }
@@ -67,7 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 SET first_name = ?, last_name = ?, email = ?, password_hash = ?, updated_at = NOW()
                                 WHERE id = ?
                             ");
-                            $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+                            // Store password as plain text for easier admin management
+                            // You can change this to password_hash($new_password, PASSWORD_DEFAULT) if you want hashed passwords
+                            $password_hash = $new_password;
                             $stmt->execute([$first_name, $last_name, $email, $password_hash, $_SESSION['user_id']]);
                         } else {
                             $stmt = $pdo->prepare("

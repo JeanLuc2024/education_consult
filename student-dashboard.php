@@ -8,30 +8,50 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Check if database connection is working
+if (!isset($pdo)) {
+    die('Database connection failed');
+}
+
 // Get user applications
-$stmt = $pdo->prepare("
-    SELECT a.*, u.first_name, u.last_name 
-    FROM applications a 
-    JOIN users u ON a.student_id = u.id 
-    WHERE a.student_id = ? 
-    ORDER BY a.created_at DESC
-");
-$stmt->execute([$_SESSION['user_id']]);
-$applications = $stmt->fetchAll();
+try {
+    $stmt = $pdo->prepare("
+        SELECT a.*, u.first_name, u.last_name 
+        FROM applications a 
+        JOIN users u ON a.student_id = u.id 
+        WHERE a.student_id = ? 
+        ORDER BY a.created_at DESC
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    $applications = $stmt->fetchAll();
+} catch (Exception $e) {
+    $applications = [];
+    error_log('Database error: ' . $e->getMessage());
+}
 
 // Get uploaded documents
-$stmt = $pdo->prepare("
-    SELECT * FROM documents 
-    WHERE student_id = ? 
-    ORDER BY uploaded_at DESC
-");
-$stmt->execute([$_SESSION['user_id']]);
-$documents = $stmt->fetchAll();
+try {
+    $stmt = $pdo->prepare("
+        SELECT * FROM documents 
+        WHERE student_id = ? 
+        ORDER BY uploaded_at DESC
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    $documents = $stmt->fetchAll();
+} catch (Exception $e) {
+    $documents = [];
+    error_log('Database error: ' . $e->getMessage());
+}
 
 // Get user profile
-$stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->execute([$_SESSION['user_id']]);
-$user = $stmt->fetch();
+try {
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch();
+} catch (Exception $e) {
+    $user = ['first_name' => 'User', 'last_name' => 'Name', 'email' => 'user@example.com'];
+    error_log('Database error: ' . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +62,256 @@ $user = $stmt->fetch();
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
+    
+    <!-- JavaScript functions - defined early to avoid reference errors -->
+    <script>
+        // Define all functions immediately to avoid reference errors
+        function showSection(sectionName, el) {
+            // Remove active class from all sidebar links
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Add active class to clicked link
+            if (el) {
+                el.classList.add('active');
+            }
+            // Hide all sections
+            document.querySelectorAll('.student-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Show selected section
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            }
+            // Update section title
+            const titles = {
+                'applications': 'My Applications',
+                'documents': 'Document Management',
+                'replies': 'Admin Replies',
+                'profile': 'My Profile'
+            };
+            const titleElement = document.getElementById('section-title');
+            if (titleElement && titles[sectionName]) {
+                titleElement.textContent = titles[sectionName];
+            }
+        }
+
+        function startNewApplication() {
+            showApplicationForm();
+        }
+
+        function showApplicationForm() {
+            // Clear form and reset to new application mode
+            document.getElementById('newApplicationForm').reset();
+            
+            // Remove any existing hidden application_id field
+            const existingHiddenField = document.querySelector('input[name="application_id"]');
+            if (existingHiddenField) {
+                existingHiddenField.remove();
+            }
+            
+            // Reset form title and button
+            document.querySelector('#application-form .card-header h5').textContent = 'New Application';
+            document.querySelector('#newApplicationForm button[type="submit"]').innerHTML = '<i class="bi bi-check-circle me-1"></i>Submit Application';
+            
+            document.getElementById('application-form').style.display = 'block';
+            document.getElementById('application-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideApplicationForm() {
+            document.getElementById('application-form').style.display = 'none';
+        }
+
+        function testFunction() {
+            alert('JavaScript is working correctly!');
+        }
+
+        function viewApplication(appId) {
+            // Fetch application details via AJAX
+            fetch(`get-application-details.php?id=${appId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showApplicationModal(data.application);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error loading application details');
+                });
+        }
+
+        function showApplicationModal(app) {
+            const modal = new bootstrap.Modal(document.getElementById('applicationDetailsModal'));
+            document.getElementById('applicationDetailsBody').innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>University Information</h6>
+                        <p><strong>University:</strong> ${app.university_name}</p>
+                        <p><strong>Program:</strong> ${app.program_name}</p>
+                        <p><strong>Country:</strong> ${app.country}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Application Details</h6>
+                        <p><strong>Degree:</strong> ${app.academic_degree || 'Not specified'}</p>
+                        <p><strong>Start Year:</strong> ${app.start_year || 'Not specified'}</p>
+                        <p><strong>Semester:</strong> ${app.start_semester || 'Not specified'}</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h6>Status & Timeline</h6>
+                        <p><strong>Status:</strong> <span class="badge bg-${app.status === 'approved' ? 'success' : (app.status === 'rejected' ? 'danger' : 'warning')}">${app.status.replace('_', ' ').toUpperCase()}</span></p>
+                        <p><strong>Applied:</strong> ${new Date(app.created_at).toLocaleDateString()}</p>
+                        <p><strong>Last Updated:</strong> ${new Date(app.updated_at).toLocaleDateString()}</p>
+                    </div>
+                </div>
+                ${app.notes ? `<div class="row mt-3"><div class="col-12"><h6>Notes</h6><p>${app.notes}</p></div></div>` : ''}
+            `;
+            modal.show();
+        }
+
+        function editApplication(appId) {
+            // Fetch application details and populate form
+            fetch(`get-application-details.php?id=${appId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const app = data.application;
+                        
+                        // Clear form first
+                        document.getElementById('newApplicationForm').reset();
+                        
+                        // Remove any existing hidden application_id field
+                        const existingHiddenField = document.querySelector('input[name="application_id"]');
+                        if (existingHiddenField) {
+                            existingHiddenField.remove();
+                        }
+                        
+                        // Populate form fields with existing data
+                        document.querySelector('select[name="country"]').value = app.country || '';
+                        document.querySelector('input[name="university_name"]').value = app.university_name || '';
+                        document.querySelector('input[name="program_name"]').value = app.program_name || '';
+                        document.querySelector('select[name="academic_degree"]').value = app.academic_degree || '';
+                        document.querySelector('select[name="start_year"]').value = app.start_year || '';
+                        document.querySelector('select[name="start_semester"]').value = app.start_semester || 'Fall';
+                        document.querySelector('textarea[name="notes"]').value = app.notes || '';
+                        
+                        // Show form and add hidden field for update
+                        const form = document.getElementById('newApplicationForm');
+                        const hiddenField = document.createElement('input');
+                        hiddenField.type = 'hidden';
+                        hiddenField.name = 'application_id';
+                        hiddenField.value = appId;
+                        form.appendChild(hiddenField);
+                        
+                        // Update form title and button
+                        document.querySelector('#application-form .card-header h5').textContent = 'Edit Application';
+                        form.querySelector('button[type="submit"]').innerHTML = '<i class="bi bi-check-circle me-1"></i>Update Application';
+                        
+                        document.getElementById('application-form').style.display = 'block';
+                        document.getElementById('application-form').scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error loading application details');
+                });
+        }
+
+        function deleteApplication(appId) {
+            if (confirm('Are you sure you want to delete this application? This action cannot be undone.')) {
+                fetch('delete-application.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({id: appId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Application deleted successfully!');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error deleting application');
+                });
+            }
+        }
+
+        function deleteDocument(docId) {
+            if (confirm('Are you sure you want to delete this document?')) {
+                fetch('delete-document.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({id: docId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Document deleted successfully!');
+                        // Refresh only the documents section instead of full page reload
+                        loadDocuments();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error deleting document');
+                });
+            }
+        }
+
+        function deleteMessage(messageId) {
+            if (confirm('Are you sure you want to delete this message?')) {
+                fetch('delete-message.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({id: messageId})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Message deleted successfully!');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error deleting message');
+                });
+            }
+        }
+
+        function loadDocuments() {
+            // Refresh the documents section by reloading the page
+            // In a more advanced implementation, you could use AJAX to load just the documents table
+            location.reload();
+        }
+
+        // Test function availability immediately
+        console.log('Functions defined in head:', {
+            showSection: typeof showSection,
+            testFunction: typeof testFunction,
+            startNewApplication: typeof startNewApplication,
+            viewApplication: typeof viewApplication,
+            editApplication: typeof editApplication,
+            deleteApplication: typeof deleteApplication
+        });
+    </script>
+    
     <style>
         .student-sidebar {
             min-height: 100vh;
@@ -91,7 +361,7 @@ $user = $stmt->fetch();
                         Student Portal
                     </h4>
                     <nav class="nav flex-column">
-                        <a href="#applications" class="sidebar-link active" onclick="showSection('applications', this)">
+                        <a href="#applications" class="sidebar-link active" onclick="console.log('clicked applications'); showSection('applications', this)">
                             <i class="bi bi-file-text me-2"></i>
                             My Applications
                         </a>
@@ -134,10 +404,12 @@ $user = $stmt->fetch();
                     <div id="applications-section" class="student-section">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h3>My Applications</h3>
-                            <button class="btn btn-primary" onclick="startNewApplication()">
-                                <i class="bi bi-plus-circle me-1"></i>
-                                Start New Application
-                            </button>
+                            <div>
+                                <button class="btn btn-primary" onclick="startNewApplication()">
+                                    <i class="bi bi-plus-circle me-1"></i>
+                                    Start New Application
+                                </button>
+                            </div>
                         </div>
                         
                         <!-- Application Form (Hidden by default) -->
@@ -186,10 +458,11 @@ $user = $stmt->fetch();
                                             <label class="form-label">Intended Start Year *</label>
                                             <select class="form-select" name="start_year" required>
                                                 <option value="">Select Year</option>
-                                                <option value="2024">2024</option>
+                                                
                                                 <option value="2025">2025</option>
                                                 <option value="2026">2026</option>
                                                 <option value="2027">2027</option>
+                                                <option value="2028">2028</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6 mb-3">
@@ -288,11 +561,12 @@ $user = $stmt->fetch();
                                     <select class="form-select" name="document_type" required>
                                         <option value="">Select Document Type</option>
                                         <option value="passport">Passport</option>
-                                        <option value="academic_transcript">Academic Transcript</option>
-                                        <option value="degree_certificate">Degree Certificate</option>
-                                        <option value="english_proficiency">English Proficiency Test</option>
-                                        <option value="recommendation_letter">Recommendation Letter</option>
-                                        <option value="statement_of_purpose">Statement of Purpose</option>
+                                        <option value="transcript">Academic Transcript</option>
+                                        <option value="diploma">Degree Certificate</option>
+                                        <option value="ielts">IELTS</option>
+                                        <option value="toefl">TOEFL</option>
+                                        <option value="recommendation">Recommendation Letter</option>
+                                        <option value="essay">Statement of Purpose</option>
                                         <option value="other">Other</option>
                                     </select>
                                 </div>
@@ -326,7 +600,15 @@ $user = $stmt->fetch();
                                     <tbody>
                                         <?php foreach ($documents as $doc): ?>
                                             <tr>
-                                                <td><?php echo ucfirst(str_replace('_', ' ', $doc['document_type'])); ?></td>
+                                                <td>
+                                                    <?php 
+                                                    $docType = $doc['document_type'] ?? 'other';
+                                                    if (empty($docType) || $docType === '') {
+                                                        $docType = 'other';
+                                                    }
+                                                    echo ucfirst(str_replace('_', ' ', $docType)); 
+                                                    ?>
+                                                </td>
                                                 <td><?php echo htmlspecialchars($doc['original_filename']); ?></td>
                                                 <td><?php echo date('M d, Y', strtotime($doc['uploaded_at'])); ?></td>
                                                 <td><?php echo round($doc['file_size'] / 1024, 2); ?> KB</td>
@@ -345,9 +627,16 @@ $user = $stmt->fetch();
 
                     <!-- Replies Section -->
                     <div id="replies-section" class="student-section" style="display: none;">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
                         <h3>Admin Messages</h3>
+                            <button class="btn btn-outline-primary" onclick="location.reload()">
+                                <i class="bi bi-arrow-clockwise me-1"></i>
+                                Refresh Messages
+                            </button>
+                        </div>
                         <?php
                         // Get admin messages for this student
+                        try {
                         $stmt = $pdo->prepare("
                             SELECT am.*, u.first_name, u.last_name 
                             FROM admin_messages am 
@@ -359,18 +648,26 @@ $user = $stmt->fetch();
                         $messages = $stmt->fetchAll();
                         
                         if (empty($messages)) {
-                            echo '<div class="alert alert-info">No messages from admin yet.</div>';
+                                echo '<div class="alert alert-info">';
+                                echo '<h5><i class="bi bi-chat-dots me-2"></i>No Messages Yet</h5>';
+                                echo '<p>You haven\'t received any messages from admin yet. Messages will appear here when admin responds to your applications.</p>';
+                                echo '</div>';
                         } else {
                             echo '<div class="table-responsive">';
-                            echo '<table class="table table-striped">';
-                            echo '<thead><tr><th>Subject</th><th>Message</th><th>From</th><th>Date</th><th>Actions</th></tr></thead>';
+                                echo '<table class="table table-striped table-hover">';
+                                echo '<thead class="table-dark">';
+                                echo '<tr><th>Subject</th><th>Message</th><th>From</th><th>Date</th><th>Status</th><th>Actions</th></tr>';
+                                echo '</thead>';
                             echo '<tbody>';
                             foreach ($messages as $message) {
-                                echo '<tr>';
-                                echo '<td>' . htmlspecialchars($message['subject']) . '</td>';
+                                    $isRead = $message['is_read'] ? 'Read' : 'Unread';
+                                    $readClass = $message['is_read'] ? 'text-muted' : 'fw-bold';
+                                    echo '<tr class="' . $readClass . '">';
+                                    echo '<td><strong>' . htmlspecialchars($message['subject']) . '</strong></td>';
                                 echo '<td>' . htmlspecialchars($message['message']) . '</td>';
                                 echo '<td>' . htmlspecialchars($message['first_name'] . ' ' . $message['last_name']) . '</td>';
                                 echo '<td>' . date('M d, Y H:i', strtotime($message['created_at'])) . '</td>';
+                                    echo '<td><span class="badge bg-' . ($message['is_read'] ? 'success' : 'warning') . '">' . $isRead . '</span></td>';
                                 echo '<td>';
                                 echo '<button class="btn btn-sm btn-outline-danger" onclick="deleteMessage(' . $message['id'] . ')">';
                                 echo '<i class="bi bi-trash"></i> Delete';
@@ -379,6 +676,14 @@ $user = $stmt->fetch();
                                 echo '</tr>';
                             }
                             echo '</tbody></table></div>';
+                            }
+                        } catch (Exception $e) {
+                            echo '<div class="alert alert-warning">';
+                            echo '<h5><i class="bi bi-exclamation-triangle me-2"></i>Error Loading Messages</h5>';
+                            echo '<p>There was an error loading admin messages. Please try refreshing the page.</p>';
+                            echo '<p><strong>Error:</strong> ' . htmlspecialchars($e->getMessage()) . '</p>';
+                            echo '</div>';
+                            error_log('Admin messages error: ' . $e->getMessage());
                         }
                         ?>
                     </div>
@@ -475,199 +780,7 @@ $user = $stmt->fetch();
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        function showSection(sectionName, el) {
-            // Remove active class from all sidebar links
-            document.querySelectorAll('.sidebar-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            // Add active class to clicked link
-            if (el) {
-                el.classList.add('active');
-            }
-            // Hide all sections
-            document.querySelectorAll('.student-section').forEach(section => {
-                section.style.display = 'none';
-            });
-            // Show selected section
-            const targetSection = document.getElementById(sectionName + '-section');
-            if (targetSection) {
-                targetSection.style.display = 'block';
-            }
-            // Update section title
-            const titles = {
-                'applications': 'My Applications',
-                'documents': 'Document Management',
-                'replies': 'Admin Replies',
-                'profile': 'My Profile'
-            };
-            const titleElement = document.getElementById('section-title');
-            if (titleElement && titles[sectionName]) {
-                titleElement.textContent = titles[sectionName];
-            }
-        }
-
-        function startNewApplication() {
-            showApplicationForm();
-        }
-
-        function showApplicationForm() {
-            document.getElementById('application-form').style.display = 'block';
-            document.getElementById('application-form').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function hideApplicationForm() {
-            document.getElementById('application-form').style.display = 'none';
-        }
-
-        function viewApplication(appId) {
-            // Fetch application details via AJAX
-            fetch(`get-application-details.php?id=${appId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        showApplicationModal(data.application);
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('Error loading application details');
-                });
-        }
-
-        function showApplicationModal(app) {
-            const modal = new bootstrap.Modal(document.getElementById('applicationDetailsModal'));
-            document.getElementById('applicationDetailsBody').innerHTML = `
-                <div class="row">
-                    <div class="col-md-6">
-                        <h6>University Information</h6>
-                        <p><strong>University:</strong> ${app.university_name}</p>
-                        <p><strong>Program:</strong> ${app.program_name}</p>
-                        <p><strong>Country:</strong> ${app.country}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h6>Application Details</h6>
-                        <p><strong>Degree:</strong> ${app.academic_degree || 'Not specified'}</p>
-                        <p><strong>Start Year:</strong> ${app.start_year || 'Not specified'}</p>
-                        <p><strong>Semester:</strong> ${app.start_semester || 'Not specified'}</p>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <h6>Status & Timeline</h6>
-                        <p><strong>Status:</strong> <span class="badge bg-${app.status === 'approved' ? 'success' : (app.status === 'rejected' ? 'danger' : 'warning')}">${app.status.replace('_', ' ').toUpperCase()}</span></p>
-                        <p><strong>Applied:</strong> ${new Date(app.created_at).toLocaleDateString()}</p>
-                        <p><strong>Last Updated:</strong> ${new Date(app.updated_at).toLocaleDateString()}</p>
-                    </div>
-                </div>
-                ${app.notes ? `<div class="row mt-3"><div class="col-12"><h6>Notes</h6><p>${app.notes}</p></div></div>` : ''}
-            `;
-            modal.show();
-        }
-
-        function editApplication(appId) {
-            // Fetch application details and populate form
-            fetch(`get-application-details.php?id=${appId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        const app = data.application;
-                        // Populate form fields
-                        document.querySelector('select[name="country"]').value = app.country;
-                        document.querySelector('input[name="university_name"]').value = app.university_name;
-                        document.querySelector('input[name="program_name"]').value = app.program_name;
-                        document.querySelector('select[name="academic_degree"]').value = app.academic_degree;
-                        document.querySelector('select[name="start_year"]').value = app.start_year;
-                        document.querySelector('select[name="start_semester"]').value = app.start_semester;
-                        document.querySelector('textarea[name="notes"]').value = app.notes || '';
-                        
-                        // Show form and add hidden field for update
-                        const form = document.getElementById('newApplicationForm');
-                        form.innerHTML += `<input type="hidden" name="application_id" value="${appId}">`;
-                        form.querySelector('button[type="submit"]').innerHTML = '<i class="bi bi-check-circle me-1"></i>Update Application';
-                        
-                        document.getElementById('application-form').style.display = 'block';
-                        document.getElementById('application-form').scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('Error loading application details');
-                });
-        }
-
-        function deleteApplication(appId) {
-            if (confirm('Are you sure you want to delete this application? This action cannot be undone.')) {
-                fetch('delete-application.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({id: appId})
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('Application deleted successfully!');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('Error deleting application');
-                });
-            }
-        }
-
-        function deleteDocument(docId) {
-            if (confirm('Are you sure you want to delete this document?')) {
-                fetch('delete-document.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({id: docId})
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('Document deleted successfully!');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('Error deleting document');
-                });
-            }
-        }
-
-        function deleteMessage(messageId) {
-            if (confirm('Are you sure you want to delete this message?')) {
-                fetch('delete-message.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({id: messageId})
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('Message deleted successfully!');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    alert('Error deleting message');
-                });
-            }
-        }
+        console.log('JavaScript starting to load...');
 
         // Document upload form
         document.getElementById('documentUploadForm').addEventListener('submit', function(e) {
@@ -683,7 +796,11 @@ $user = $stmt->fetch();
                 if (result.status === 'success') {
                     alert('Document uploaded successfully!');
                     this.reset();
+                    // Stay on documents section and refresh
+                    showSection('documents');
+                    setTimeout(() => {
                     location.reload();
+                    }, 500);
                 } else {
                     alert('Error: ' + result.message);
                 }
@@ -712,7 +829,13 @@ $user = $stmt->fetch();
             .then(result => {
                 if (result.status === 'success') {
                     alert('Application submitted successfully!');
+                    // Hide the form and show applications section
+                    hideApplicationForm();
+                    showSection('applications');
+                    // Refresh the page to show updated applications
+                    setTimeout(() => {
                     location.reload();
+                    }, 1000);
                 } else {
                     alert('Error: ' + result.message);
                 }
@@ -735,7 +858,12 @@ $user = $stmt->fetch();
             .then(result => {
                 if (result.status === 'success') {
                     alert('Profile updated successfully!');
+                    // Redirect to profile section after successful update
+                    showSection('profile');
+                    // Refresh the page to show updated profile
+                    setTimeout(() => {
                     location.reload();
+                    }, 1000);
                 } else {
                     alert('Error: ' + result.message);
                 }
@@ -747,8 +875,18 @@ $user = $stmt->fetch();
 
         // Initialize applications section on load
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, functions available:', typeof showSection, typeof viewApplication);
+            console.log('All functions:', {
+                showSection: typeof showSection,
+                viewApplication: typeof viewApplication,
+                editApplication: typeof editApplication,
+                deleteApplication: typeof deleteApplication,
+                startNewApplication: typeof startNewApplication
+            });
             showSection('applications');
         });
+        
+        console.log('JavaScript finished loading...');
     </script>
 </body>
 </html>

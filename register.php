@@ -59,6 +59,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, rgba(13, 131, 253, 0.8) 0%, rgba(45, 70, 94, 0.8) 100%), url('assets/img/3.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            
+        }
+        .card-header {
+            background: linear-gradient(135deg, #0d83fd, #2d465e);
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
+            border: none;
+        }
+        .card-header h3{
+            color: white;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0d83fd, #2d465e);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2d465e, #0d83fd);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+        .form-control:focus {
+            border-color: #0d83fd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 131, 253, 0.25);
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">

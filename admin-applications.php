@@ -52,23 +52,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             ");
             $stmt->execute([$app_id, $new_status, $_SESSION['user_id'], $admin_message]);
             
+            $success = 'Application status updated successfully';
+            
             // Send message to student if admin_message is provided
             if (!empty($admin_message)) {
-                $stmt = $pdo->prepare("
-                    INSERT INTO admin_messages (student_id, admin_id, application_id, subject, message) 
-                    VALUES (?, ?, ?, ?, ?)
-                ");
-                $subject = "Update on your application - " . $new_status;
-                $stmt->execute([
-                    $_POST['student_id'],
-                    $_SESSION['user_id'],
-                    $app_id,
-                    $subject,
-                    $admin_message
-                ]);
+                try {
+                    $stmt = $pdo->prepare("
+                        INSERT INTO admin_messages (student_id, admin_id, application_id, subject, message) 
+                        VALUES (?, ?, ?, ?, ?)
+                    ");
+                    $subject = "Application Status Update - " . ucfirst(str_replace('_', ' ', $new_status));
+                    $stmt->execute([
+                        $_POST['student_id'],
+                        $_SESSION['user_id'],
+                        $app_id,
+                        $subject,
+                        $admin_message
+                    ]);
+                    $success .= ' and message sent to student';
+                } catch (Exception $e) {
+                    // If admin_messages table doesn't exist, just log the error and continue
+                    error_log('Admin messages table error: ' . $e->getMessage());
+                    $success .= ' (message sending failed)';
+                }
             }
-            
-            $success = 'Application status updated successfully';
         } catch (Exception $e) {
             $error = 'Error updating status: ' . $e->getMessage();
         }

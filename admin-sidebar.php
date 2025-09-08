@@ -24,6 +24,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
                 <i class="bi bi-envelope me-2"></i>
                 Inquiries
             </a>
+            <a href="admin-documents.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-documents.php' ? 'active' : ''; ?>">
+                <i class="bi bi-file-earmark me-2"></i>
+                Documents
+            </a>
             <a href="admin-profile.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-profile.php' ? 'active' : ''; ?>">
                 <i class="bi bi-person me-2"></i>
                 Profile
