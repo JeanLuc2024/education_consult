@@ -1,6 +1,7 @@
 <?php
 // Contact form handler for Modern Education Consult Ltd
 require_once '../config/database.php';
+require_once '../config/email.php';
 
 // Set content type
 header('Content-Type: application/json');
@@ -15,8 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $name = trim($_POST['name'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
-$country_interest = trim($_POST['country_interest'] ?? '');
-$message = trim($_POST['message'] ?? '');
+    $age = trim($_POST['age'] ?? '');
+    $country_interest = trim($_POST['country_interest'] ?? '');
+    $education_level = trim($_POST['education_level'] ?? '');
+    $message = trim($_POST['message'] ?? '');
 
 // Validation
 $errors = [];
@@ -27,6 +30,14 @@ if (empty($name)) {
 
 if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors[] = 'Valid email is required';
+}
+
+if (empty($age) || !is_numeric($age) || $age < 16 || $age > 65) {
+    $errors[] = 'Valid age (16-65) is required';
+}
+
+if (empty($education_level)) {
+    $errors[] = 'Education level is required';
 }
 
 if (empty($message)) {
@@ -41,15 +52,15 @@ if (!empty($errors)) {
 try {
     // Insert inquiry into database
     $stmt = $pdo->prepare("
-        INSERT INTO inquiries (name, email, phone, country_interest, subject, message) 
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO inquiries (name, email, phone, age, country_interest, education_level, subject, message) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ");
     
     $subject = "Consultation Request from " . $name;
-    $stmt->execute([$name, $email, $phone, $country_interest, $subject, $message]);
+    $stmt->execute([$name, $email, $phone, $age, $country_interest, $education_level, $subject, $message]);
     
-    // Send email notification (basic implementation)
-    $to = "info@moderneducationconsult.com";
+    // Send email notification
+    $to = ADMIN_EMAIL;
     $subject = "New Consultation Request - " . $name;
     $body = "
     New consultation request received:
@@ -57,16 +68,16 @@ try {
     Name: $name
     Email: $email
     Phone: $phone
+    Age: $age
     Country of Interest: $country_interest
+    Education Level: $education_level
     Message: $message
     
     Submitted on: " . date('Y-m-d H:i:s');
     
-    $headers = "From: noreply@moderneducationconsult.com\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    $headers .= "Content-Type: text/plain\r\n";
+    // Send email using our email function
+    sendEmail($to, $subject, $body);
     
-    // Always show success immediately (no email delay)
     echo 'OK';
     
 } catch (Exception $e) {

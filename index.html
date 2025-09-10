@@ -26,6 +26,39 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  
+  <style>
+    .facility-card {
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .facility-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .facility-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(13, 131, 253, 0.1);
+      border-radius: 50%;
+    }
+    .testimonial-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+    .service-section img {
+      border-radius: 10px;
+      max-height: 300px;
+      object-fit: cover;
+    }
+  </style>
 
   <!-- =======================================================
   * Template Name: iLanding
@@ -42,8 +75,7 @@
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <img src="assets/img/logo.jpg" alt="Modern Education Consult" class="logo-img me-2" style="height: 40px;">
         <h1 class="sitename">Modern Education Consult</h1>
       </a>
 
@@ -59,7 +91,6 @@
             </ul>
           </li>
           <li><a href="#contact">Contact</a></li>
-          <li><a href="student-portal.php">Student Portal</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -107,7 +138,7 @@
 
           <div class="col-lg-6">
             <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
-              <img src="assets/img/1.jpg" alt="Students studying abroad" class="img-fluid">
+              <img src="assets/img/avatar-4.jpeg" alt="Students studying abroad" class="img-fluid">
 
               <div class="customers-badge">
                 <div class="hero-stats">
@@ -213,21 +244,14 @@
               <div class="row gy-4">
                 <div class="col-lg-5">
                   <div class="profile d-flex align-items-center gap-3">
-                    <img src="assets/img/avatar-1.webp" alt="CEO Profile" class="profile-image">
-                    <div>
-                      <h4 class="profile-name">Dr. Sarah Johnson</h4>
-                      <p class="profile-position">CEO &amp; Education Director</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-7">
-                  <div class="contact-info d-flex align-items-center gap-2">
+                    
                     <i class="bi bi-telephone-fill"></i>
                     <div>
                       <p class="contact-label">Free consultation</p>
                       <p class="contact-number">+1 (555) 123-4567</p>
-                    </div>
                   </div>
+                </div>
+            
                 </div>
               </div>
             </div>
@@ -268,19 +292,19 @@
 
             <li class="nav-item">
               <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
-                <h4>Student Visa Facilitation</h4>
+                <h4>Study and Work Abroad</h4>
               </a>
             </li><!-- End tab nav item -->
 
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
-                <h4>Universities & Courses</h4>
+                <h4>Admissions Assistance</h4>
               </a><!-- End tab nav item -->
 
             </li>
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
-                <h4>Admissions Assistance</h4>
+                <h4>Student Visa Facilitation</h4>
               </a>
             </li><!-- End tab nav item -->
 
@@ -293,44 +317,24 @@
           <div class="tab-pane fade active show" id="features-tab-1">
             <div class="row">
               <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                <h3>Student Visa Facilitation</h3>
+                <h3>Study and Work Abroad</h3>
                 <p class="fst-italic">
-                  Help with application process, document preparation, and guidance through the entire visa application journey.
+                  Comprehensive guidance for studying and working abroad, including university selection, work permit assistance, and career development.
                 </p>
                 <ul>
-                  <li><i class="bi bi-check2-all"></i> <span>Complete visa application assistance</span></li>
-                  <li><i class="bi bi-check2-all"></i> <span>Document preparation and verification</span></li>
-                  <li><i class="bi bi-check2-all"></i> <span>Interview preparation and guidance</span></li>
-                  <li><i class="bi bi-check2-all"></i> <span>Application tracking and updates</span></li>
+                  <li><i class="bi bi-check2-all"></i> <span>University and program selection</span></li>
+                  <li><i class="bi bi-check2-all"></i> <span>Work permit and visa guidance</span></li>
+                  <li><i class="bi bi-check2-all"></i> <span>Career counseling and job placement</span></li>
+                  <li><i class="bi bi-check2-all"></i> <span>Post-graduation work opportunities</span></li>
                 </ul>
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="assets/img/2.webp" alt="Student Visa Facilitation" class="img-fluid">
+                <img src="assets/img/3.webp" alt="Study and Work Abroad" class="img-fluid">
               </div>
             </div>
           </div><!-- End tab content item -->
 
           <div class="tab-pane fade" id="features-tab-2">
-            <div class="row">
-              <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
-                <h3>Universities & Courses</h3>
-                <p class="fst-italic">
-                  Help with selections of the right universities and courses that match your academic goals and career aspirations.
-                </p>
-                <ul>
-                  <li><i class="bi bi-check2-all"></i> <span>University research and selection</span></li>
-                  <li><i class="bi bi-check2-all"></i> <span>Course matching and program guidance</span></li>
-                  <li><i class="bi bi-check2-all"></i> <span>Admission requirements analysis</span></li>
-                  <li><i class="bi bi-check2-all"></i> <span>Application strategy development</span></li>
-                </ul>
-              </div>
-              <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="assets/img/3.avif" alt="Universities & Courses" class="img-fluid">
-              </div>
-            </div>
-          </div><!-- End tab content item -->
-
-          <div class="tab-pane fade" id="features-tab-3">
             <div class="row">
               <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
                 <h3>Admissions Assistance</h3>
@@ -345,7 +349,27 @@
                 </ul>
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="assets/img/services.jpg" alt="Admissions Assistance" class="img-fluid">
+                <img src="assets/img/avatar-5.webp" alt="Admissions Assistance" class="img-fluid">
+              </div>
+            </div>
+          </div><!-- End tab content item -->
+
+          <div class="tab-pane fade" id="features-tab-3">
+            <div class="row">
+              <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                <h3>Student Visa Facilitation</h3>
+                <p class="fst-italic">
+                  Help with application process, document preparation, and guidance through the entire visa application journey.
+                </p>
+                <ul>
+                  <li><i class="bi bi-check2-all"></i> <span>Complete visa application assistance</span></li>
+                  <li><i class="bi bi-check2-all"></i> <span>Document preparation and verification</span></li>
+                  <li><i class="bi bi-check2-all"></i> <span>Interview preparation and guidance</span></li>
+                  <li><i class="bi bi-check2-all"></i> <span>Application tracking and updates</span></li>
+                </ul>
+              </div>
+              <div class="col-lg-6 order-1 order-lg-2 text-center">
+                <img src="assets/img/avatar-1.webp" alt="Student Visa Facilitation" class="img-fluid">
               </div>
             </div>
           </div><!-- End tab content item -->
@@ -389,9 +413,9 @@
 
           <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
             <div class="feature-box red">
-              <i class="bi bi-house"></i>
-              <h4>Accommodation Help</h4>
-              <p>Assistance in finding suitable accommodation and settling into your new academic environment</p>
+              <i class="bi bi-laptop"></i>
+              <h4>Online Courses</h4>
+              <p>We help you apply for and study online courses from abroad universities from the comfort of your home</p>
             </div>
           </div><!-- End Feature Box-->
 
@@ -530,7 +554,7 @@
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="Student Testimonial">
+              <img src="assets/img/avatar-1.webp" class="testimonial-img" alt="Student Testimonial">
               <h3>Ahmed Hassan</h3>
               <h4>Computer Science, University of Toronto</h4>
               <div class="stars">
@@ -546,7 +570,7 @@
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="Student Testimonial">
+              <img src="assets/img/avatar-2.webp" class="testimonial-img" alt="Student Testimonial">
               <h3>Priya Sharma</h3>
               <h4>MBA, London Business School</h4>
               <div class="stars">
@@ -562,7 +586,7 @@
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
             <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="Student Testimonial">
+              <img src="assets/img/avatar-3.webp" class="testimonial-img" alt="Student Testimonial">
               <h3>Maria Rodriguez</h3>
               <h4>Engineering, MIT</h4>
               <div class="stars">
@@ -578,7 +602,7 @@
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
             <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="Student Testimonial">
+              <img src="assets/img/avatar-4.webp" class="testimonial-img" alt="Student Testimonial">
               <h3>David Kim</h3>
               <h4>Medicine, University of Melbourne</h4>
               <div class="stars">
@@ -658,7 +682,7 @@
                 <i class="bi bi-mortarboard"></i>
               </div>
               <div>
-                <h3>Study Abroad Guidance</h3>
+                <h3>Study and Work Abroad</h3>
                 <p>Complete assistance in university selection, application preparation, and program matching based on your academic profile and career goals.</p>
                  
               </div>
@@ -694,11 +718,24 @@
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
             <div class="service-card d-flex">
               <div class="icon flex-shrink-0">
-                <i class="bi bi-house"></i>
+                <i class="bi bi-check-circle"></i>
               </div>
               <div>
-                <h3>Accommodation & Travel</h3>
-                <p>Assistance in finding suitable accommodation, travel arrangements, and pre-departure orientation for a smooth transition.</p>
+                <h3>After Visa Services</h3>
+                <p>Comprehensive support after visa approval including airport pickup, accommodation assistance, and settling-in support for a smooth transition.</p>
+                
+              </div>
+            </div>
+          </div><!-- End Service Card -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-card d-flex">
+              <div class="icon flex-shrink-0">
+                <i class="bi bi-award"></i>
+              </div>
+              <div>
+                <h3>Financial Support Facilities</h3>
+                <p>Comprehensive financial assistance including study loans, tuition fee discounts, and scholarship opportunities to make your international education affordable and accessible.</p>
                 
               </div>
             </div>
@@ -710,179 +747,48 @@
 
     </section><!-- /Services Section -->
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing section light-background">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Our Service Packages</h2>
-        <p>Choose the perfect package for your study abroad journey</p>
-      </div><!-- End Section Title -->
-
+    <!-- Facilities Section -->
+    <section id="facilities" class="facilities section light-background">
       <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row g-4 justify-content-center">
-
-          <!-- Basic Plan -->
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="pricing-card">
-              <h3>Basic Guidance</h3>
-              <div class="price">
-                <span class="currency">$</span>
-                <span class="amount">299</span>
-                <span class="period">one-time</span>
-              </div>
-              <p class="description">Perfect for students who need basic guidance and support for their study abroad journey.</p>
-
-              <h4>Services Included:</h4>
-              <ul class="features-list">
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  University selection (up to 5 universities)
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Application guidance
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Document checklist
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Email support
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Basic visa guidance
-                </li>
-              </ul>
-
-              <a href="#contact" class="btn btn-primary">
-                Get Started
-                <i class="bi bi-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- Standard Plan -->
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="pricing-card popular">
-              <div class="popular-badge">Most Popular</div>
-              <h3>Complete Support</h3>
-              <div class="price">
-                <span class="currency">$</span>
-                <span class="amount">599</span>
-                <span class="period">one-time</span>
-              </div>
-              <p class="description">Comprehensive support package with everything you need for a successful study abroad experience.</p>
-
-              <h4>Services Included:</h4>
-              <ul class="features-list">
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Everything in Basic
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Unlimited university applications
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Personal statement review
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Scholarship assistance
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Complete visa support
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Accommodation assistance
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Pre-departure orientation
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Priority support
-                </li>
-              </ul>
-
-              <a href="#contact" class="btn btn-light">
-                Get Started
-                <i class="bi bi-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- Premium Plan -->
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="pricing-card">
-              <h3>Premium Plus</h3>
-              <div class="price">
-                <span class="currency">$</span>
-                <span class="amount">999</span>
-                <span class="period">one-time</span>
-              </div>
-              <p class="description">Premium package with dedicated counselor and comprehensive post-arrival support.</p>
-
-              <h4>Services Included:</h4>
-              <ul class="features-list">
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Everything in Complete
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Dedicated counselor
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Interview preparation
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Travel arrangements
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Airport pickup
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  6 months post-arrival support
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Emergency assistance
-                </li>
-                <li>
-                  <i class="bi bi-check-circle-fill"></i>
-                  Family consultation
-                </li>
-              </ul>
-
-              <a href="#contact" class="btn btn-primary">
-                Get Started
-                <i class="bi bi-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-
+        <div class="section-title text-center">
+          <h2>Our Facilities</h2>
+          <p>Additional services to support your education journey</p>
         </div>
-
-        <div class="pricing-note text-center mt-4">
-          <p><i class="bi bi-info-circle me-2"></i>All packages include free initial consultation. Custom packages available for group applications.</p>
-      </div>
-
+        
+        <div class="row g-4 justify-content-center">
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="card h-100 text-center facility-card" onclick="showUniversitiesLoans()">
+              <div class="card-body">
+                <div class="facility-icon mb-3">
+                  <i class="bi bi-bank fs-1 text-primary"></i>
+                </div>
+                <h4 class="card-title">Universities with Study Loans</h4>
+                <p class="card-text">Explore universities that offer study loan programs to help fund your education abroad</p>
+                <div class="facility-stats">
+                  <span class="badge bg-primary" id="universities-count">Loading...</span>
+                </div>
+              </div>
+            </div>
           </div>
+          
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="card h-100 text-center facility-card" onclick="showOnlineCourses()">
+              <div class="card-body">
+                <div class="facility-icon mb-3">
+                  <i class="bi bi-laptop fs-1 text-success"></i>
+                </div>
+                <h4 class="card-title">Online Courses Available</h4>
+                <p class="card-text">Study courses from abroad universities from the comfort of your home</p>
+                <div class="facility-stats">
+                  <span class="badge bg-success" id="courses-count">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Facilities Section -->
 
-    </section><!-- /Pricing Section -->
 
 
 
@@ -907,11 +813,10 @@
                 <div class="icon-box">
                   <i class="bi bi-geo-alt"></i>
                 </div>
-                <div class="content">
-                  <h4>Our Office</h4>
-                  <p>123 Education Plaza</p>
-                  <p>Downtown, NY 10001</p>
-                </div>
+                  <div class="content">
+                    <h4>Our Office</h4>
+                    <p>Musanze, Rwanda</p>
+                  </div>
               </div>
 
               <div class="info-item" data-aos="fade-up" data-aos-delay="400">
@@ -920,8 +825,8 @@
                 </div>
                 <div class="content">
                   <h4>Phone Numbers</h4>
-                  <p>+1 (555) 123-4567</p>
-                  <p>+1 (555) 987-6543</p>
+                  <p>+250 795 980 073</p>
+                  <p>+250 798 979 720</p>
                 </div>
               </div>
 
@@ -931,8 +836,7 @@
                 </div>
                 <div class="content">
                   <h4>Email Address</h4>
-                  <p>info@moderneducationconsult.com</p>
-                  <p>admissions@moderneducationconsult.com</p>
+                  <p>moderneducationconsult2025@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -959,14 +863,25 @@
                   </div>
 
                   <div class="col-md-6">
-                    <select class="form-control" name="country_interest" required="">
+                    <input type="number" class="form-control" name="age" placeholder="Age" min="16" max="65" required="">
+                  </div>
+
+                  <div class="col-md-6">
+                    <select class="form-control" name="country_interest" required="" id="country-select">
                       <option value="">Country of Interest</option>
-                      <option value="canada">Canada</option>
-                      <option value="uk">United Kingdom</option>
-                      <option value="usa">United States</option>
-                      <option value="australia">Australia</option>
-                      <option value="germany">Germany</option>
-                      <option value="malaysia">Malaysia</option>
+                      <!-- Countries will be loaded dynamically -->
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <select class="form-control" name="education_level" required="">
+                      <option value="">Education Level</option>
+                      <option value="diploma">Diploma</option>
+                      <option value="bachelor">Bachelor's Degree</option>
+                      <option value="master">Master's Degree</option>
+                      <option value="phd">PhD/Doctorate</option>
+                      <option value="certificate">Certificate</option>
+                      <option value="language">Language Course</option>
                     </select>
                   </div>
 
@@ -1002,19 +917,18 @@
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
+            <img src="assets/img/logo.jpg" alt="Modern Education Consult" class="logo-img me-2" style="height: 35px;">
             <span class="sitename">Modern Education Consult</span>
           </a>
           <div class="footer-contact pt-3">
-            <p>123 Education Plaza</p>
-            <p>Downtown, NY 10001</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 (555) 123-4567</span></p>
-            <p><strong>Email:</strong> <span>info@moderneducationconsult.com</span></p>
+            <p>Musanze, Rwanda</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+250 795 980 073</span></p>
+            <p><strong>Email:</strong> <span>moderneducationconsult2025@gmail.com</span></p>
           </div>
           <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
+            <a href="https://facebook.com/moderneducationconsult" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://instagram.com/moderneducationconsult" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="mailto:moderneducationconsult2025@gmail.com"><i class="bi bi-envelope"></i></a>
           </div>
         </div>
 
@@ -1034,8 +948,8 @@
             <li><a href="#services">Study Abroad</a></li>
             <li><a href="#services">Scholarships</a></li>
             <li><a href="#services">Visa Support</a></li>
-            <li><a href="#services">Accommodation</a></li>
-            <li><a href="student-portal.php">Student Portal</a></li>
+            <li><a href="#services">After Visa Services</a></li>
+            <li><a href="#services">Online Courses</a></li>
           </ul>
         </div>
 
@@ -1116,7 +1030,181 @@
         .catch(error => {
           console.error('Error loading destinations:', error);
         });
+
+      // Load facility counts
+      fetch('get-universities-loans.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const countElement = document.getElementById('universities-count');
+            if (countElement) {
+              countElement.textContent = `${data.universities.length} Universities Available`;
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error loading universities count:', error);
+        });
+
+      fetch('get-online-courses.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const countElement = document.getElementById('courses-count');
+            if (countElement) {
+              countElement.textContent = `${data.courses.length} Courses Available`;
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error loading courses count:', error);
+        });
+
+      // Load countries for contact form
+      fetch('get-countries.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const countrySelect = document.getElementById('country-select');
+            if (countrySelect) {
+              // Clear existing options except the first one
+              countrySelect.innerHTML = '<option value="">Country of Interest</option>';
+              
+              // Add each country
+              data.countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.slug;
+                option.textContent = country.country;
+                countrySelect.appendChild(option);
+              });
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error loading countries:', error);
+        });
     });
+
+    // Function to show universities with loans modal
+    function showUniversitiesLoans() {
+      fetch('get-universities-loans.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            let modalContent = '<div class="row g-4">';
+            data.universities.forEach(uni => {
+              modalContent += `
+                <div class="col-lg-4 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title">${uni.university_name}</h5>
+                      <p class="card-text"><strong>Country:</strong> ${uni.country}</p>
+                      <p class="card-text"><strong>Loan Provider:</strong> ${uni.loan_provider}</p>
+                      <p class="card-text"><strong>Max Amount:</strong> $${uni.max_amount.toLocaleString()}</p>
+                      <p class="card-text"><strong>Interest Rate:</strong> ${uni.interest_rate}%</p>
+                      <p class="card-text"><strong>Repayment:</strong> ${uni.repayment_period}</p>
+                      <a href="#contact" class="btn btn-primary" onclick="scrollToContact()">Request Consultation</a>
+                    </div>
+                  </div>
+                </div>
+              `;
+            });
+            modalContent += '</div>';
+            
+            // Create and show modal
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+              <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Universities with Study Loans</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    ${modalContent}
+                  </div>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(modal);
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            // Remove modal from DOM when hidden and scroll to contact
+            modal.addEventListener('hidden.bs.modal', () => {
+              document.body.removeChild(modal);
+              scrollToContact();
+            });
+          }
+        });
+    }
+
+    // Function to show online courses modal
+    function showOnlineCourses() {
+      fetch('get-online-courses.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            let modalContent = '<div class="row g-4">';
+            data.courses.forEach(course => {
+              const discountedPrice = course.tuition_fee * (1 - course.discount_percentage / 100);
+              modalContent += `
+                <div class="col-lg-4 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title">${course.course_name}</h5>
+                      <p class="card-text"><strong>University:</strong> ${course.university_name}</p>
+                      <p class="card-text"><strong>Country:</strong> ${course.country}</p>
+                      <p class="card-text"><strong>Duration:</strong> ${course.duration}</p>
+                      <p class="card-text"><strong>Level:</strong> ${course.level}</p>
+                      <p class="card-text"><strong>Tuition:</strong> 
+                        <span class="text-decoration-line-through">$${course.tuition_fee.toLocaleString()}</span>
+                        <span class="text-success fw-bold">$${discountedPrice.toLocaleString()}</span>
+                        <span class="badge bg-success">${course.discount_percentage}% OFF</span>
+                      </p>
+                      <p class="card-text">${course.description}</p>
+                      <a href="#contact" class="btn btn-primary" onclick="scrollToContact()">Apply Now</a>
+                    </div>
+                  </div>
+                </div>
+              `;
+            });
+            modalContent += '</div>';
+            
+            // Create and show modal
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+              <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Online Courses Available</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    ${modalContent}
+                  </div>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(modal);
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            // Remove modal from DOM when hidden and scroll to contact
+            modal.addEventListener('hidden.bs.modal', () => {
+              document.body.removeChild(modal);
+              scrollToContact();
+            });
+          }
+        });
+    }
+
+    // Function to scroll to contact section
+    function scrollToContact() {
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    }
   </script>
 
 </body>

@@ -16,17 +16,25 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
                 <i class="bi bi-speedometer2 me-2"></i>
                 Dashboard
             </a>
-            <a href="admin-students.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-students.php' ? 'active' : ''; ?>">
-                <i class="bi bi-people me-2"></i>
-                Students
+            <a href="admin-universities-loans.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-universities-loans.php' ? 'active' : ''; ?>">
+                <i class="bi bi-bank me-2"></i>
+                Universities with Loans
+            </a>
+            <a href="admin-online-courses.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-online-courses.php' ? 'active' : ''; ?>">
+                <i class="bi bi-laptop me-2"></i>
+                Online Courses
+            </a>
+            <a href="admin-destinations.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-destinations.php' ? 'active' : ''; ?>">
+                <i class="bi bi-globe me-2"></i>
+                Destinations
+            </a>
+            <a href="admin-social-media.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-social-media.php' ? 'active' : ''; ?>">
+                <i class="bi bi-share me-2"></i>
+                Social Media
             </a>
             <a href="admin-inquiries.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-inquiries.php' ? 'active' : ''; ?>">
                 <i class="bi bi-envelope me-2"></i>
                 Inquiries
-            </a>
-            <a href="admin-documents.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-documents.php' ? 'active' : ''; ?>">
-                <i class="bi bi-file-earmark me-2"></i>
-                Documents
             </a>
             <a href="admin-profile.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-profile.php' ? 'active' : ''; ?>">
                 <i class="bi bi-person me-2"></i>

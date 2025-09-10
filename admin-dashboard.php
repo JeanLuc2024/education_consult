@@ -117,13 +117,21 @@ try {
                             <i class="bi bi-speedometer2 me-2"></i>
                             Dashboard
                         </a>
-                        <a href="admin-students.php" class="sidebar-link">
-                            <i class="bi bi-people me-2"></i>
-                            Students
+                        <a href="admin-universities-loans.php" class="sidebar-link">
+                            <i class="bi bi-bank me-2"></i>
+                            Universities with Loans
                         </a>
-                        <a href="admin-destinations.php" class="sidebar-link">
-                            <i class="bi bi-globe me-2"></i>
-                            Destinations
+                        <a href="admin-online-courses.php" class="sidebar-link">
+                            <i class="bi bi-laptop me-2"></i>
+                            Online Courses
+                        </a>
+                        <a href="admin-social-media.php" class="sidebar-link">
+                            <i class="bi bi-share me-2"></i>
+                            Social Media
+                        </a>
+                        <a href="admin-services.php" class="sidebar-link">
+                            <i class="bi bi-gear me-2"></i>
+                            Services
                         </a>
                         <a href="admin-inquiries.php" class="sidebar-link">
                             <i class="bi bi-envelope me-2"></i>
