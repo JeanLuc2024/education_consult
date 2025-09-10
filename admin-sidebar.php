@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
             Admin Panel
         </h4>
         <nav class="nav flex-column">
-            <a href="admin-dashboard.php" class="sidebar-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' ? 'active' : ''; ?>">
+            <a href="admin-dashboard.php" class="sidebar-link <?php echo (basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' || strpos($_SERVER['REQUEST_URI'], 'admin-dashboard.php') !== false) ? 'active' : ''; ?>">
                 <i class="bi bi-speedometer2 me-2"></i>
                 Dashboard
             </a>

@@ -1,10 +1,6 @@
 <?php
-// PHPMailer configuration for Gmail SMTP
-require_once 'vendor/autoload.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+// Simple email configuration using basic mail() function
+// This works without requiring Composer or PHPMailer installation
 
 // Gmail SMTP Configuration
 define('SMTP_HOST', 'smtp.gmail.com');
@@ -17,35 +13,13 @@ define('SMTP_FROM_NAME', 'Modern Education Consult Ltd');
 // Admin notification email
 define('ADMIN_EMAIL', 'moderneducationconsult2025@gmail.com');
 
-// Email function using PHPMailer
+// Simple email function using basic mail()
 function sendEmail($to, $subject, $message, $isHTML = false) {
-    $mail = new PHPMailer(true);
+    $headers = "From: " . SMTP_FROM_NAME . " <" . SMTP_FROM_EMAIL . ">\r\n";
+    $headers .= "Reply-To: " . SMTP_FROM_EMAIL . "\r\n";
+    $headers .= "Content-Type: " . ($isHTML ? "text/html" : "text/plain") . "; charset=UTF-8\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
     
-    try {
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host       = SMTP_HOST;
-        $mail->SMTPAuth   = true;
-        $mail->Username   = SMTP_USERNAME;
-        $mail->Password   = SMTP_PASSWORD;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = SMTP_PORT;
-        
-        // Recipients
-        $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
-        $mail->addAddress($to);
-        $mail->addReplyTo(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
-        
-        // Content
-        $mail->isHTML($isHTML);
-        $mail->Subject = $subject;
-        $mail->Body    = $message;
-        
-        $mail->send();
-        return true;
-    } catch (Exception $e) {
-        error_log("Email sending failed: " . $mail->ErrorInfo);
-        return false;
-    }
+    return mail($to, $subject, $message, $headers);
 }
 ?>
