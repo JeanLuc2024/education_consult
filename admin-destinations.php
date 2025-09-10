@@ -2,7 +2,6 @@
 session_start();
 require_once 'config/database.php';
 
-// Check if user is logged in as admin
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
     header('Location: admin-login.php');
     exit;
@@ -10,65 +9,64 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['action'])) {
-        switch ($_POST['action']) {
-            case 'add':
-                $name = trim($_POST['name']);
-                $slug = strtolower(str_replace(' ', '-', $name));
-                $description = trim($_POST['description']);
-                $image_path = trim($_POST['image_path']);
-                $features = json_encode(explode("\n", trim($_POST['features'])));
-                $sort_order = (int)$_POST['sort_order'];
-                
-                try {
-                    $stmt = $pdo->prepare("INSERT INTO destinations (name, slug, description, image_path, features, sort_order) VALUES (?, ?, ?, ?, ?, ?)");
-                    $stmt->execute([$name, $slug, $description, $image_path, $features, $sort_order]);
-                    $success = "Destination added successfully!";
-                } catch (Exception $e) {
-                    $error = "Error adding destination: " . $e->getMessage();
-                }
-                break;
-                
-            case 'edit':
-                $id = (int)$_POST['id'];
-                $name = trim($_POST['name']);
-                $slug = strtolower(str_replace(' ', '-', $name));
-                $description = trim($_POST['description']);
-                $image_path = trim($_POST['image_path']);
-                $features = json_encode(explode("\n", trim($_POST['features'])));
-                $sort_order = (int)$_POST['sort_order'];
-                $is_active = isset($_POST['is_active']) ? 1 : 0;
-                
-                try {
-                    $stmt = $pdo->prepare("UPDATE destinations SET name=?, slug=?, description=?, image_path=?, features=?, sort_order=?, is_active=? WHERE id=?");
-                    $stmt->execute([$name, $slug, $description, $image_path, $features, $sort_order, $is_active, $id]);
-                    $success = "Destination updated successfully!";
-                } catch (Exception $e) {
-                    $error = "Error updating destination: " . $e->getMessage();
-                }
-                break;
-                
-            case 'delete':
-                $id = (int)$_POST['id'];
-                try {
-                    $stmt = $pdo->prepare("DELETE FROM destinations WHERE id = ?");
-                    $stmt->execute([$id]);
-                    $success = "Destination deleted successfully!";
-                } catch (Exception $e) {
-                    $error = "Error deleting destination: " . $e->getMessage();
-                }
-                break;
+    $action = $_POST['action'] ?? '';
+    
+    if ($action === 'add') {
+        $name = trim($_POST['name'] ?? '');
+        $slug = trim($_POST['slug'] ?? '');
+        $country = trim($_POST['country'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $is_active = isset($_POST['is_active']) ? 1 : 0;
+        
+        try {
+            $stmt = $pdo->prepare("
+                INSERT INTO destinations (name, slug, country, description, is_active) 
+                VALUES (?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([$name, $slug, $country, $description, $is_active]);
+            $success = "Destination added successfully!";
+        } catch (Exception $e) {
+            $error = "Error adding destination: " . $e->getMessage();
+        }
+    } elseif ($action === 'update') {
+        $id = $_POST['id'];
+        $name = trim($_POST['name'] ?? '');
+        $slug = trim($_POST['slug'] ?? '');
+        $country = trim($_POST['country'] ?? '');
+        $description = trim($_POST['description'] ?? '');
+        $is_active = isset($_POST['is_active']) ? 1 : 0;
+        
+        try {
+            $stmt = $pdo->prepare("
+                UPDATE destinations 
+                SET name=?, slug=?, country=?, description=?, is_active=?
+                WHERE id=?
+            ");
+            $stmt->execute([$name, $slug, $country, $description, $is_active, $id]);
+            $success = "Destination updated successfully!";
+        } catch (Exception $e) {
+            $error = "Error updating destination: " . $e->getMessage();
+        }
+    } elseif ($action === 'delete') {
+        $id = $_POST['id'];
+        
+        try {
+            $stmt = $pdo->prepare("DELETE FROM destinations WHERE id = ?");
+            $stmt->execute([$id]);
+            $success = "Destination deleted successfully!";
+        } catch (Exception $e) {
+            $error = "Error deleting destination: " . $e->getMessage();
         }
     }
 }
 
 // Get all destinations
 try {
-    $stmt = $pdo->query("SELECT * FROM destinations ORDER BY sort_order ASC, name ASC");
+    $stmt = $pdo->query("SELECT * FROM destinations ORDER BY country ASC");
     $destinations = $stmt->fetchAll();
 } catch (Exception $e) {
-    $error = "Error fetching destinations: " . $e->getMessage();
     $destinations = [];
+    $error = "Error fetching destinations: " . $e->getMessage();
 }
 ?>
 <!DOCTYPE html>
@@ -123,17 +121,29 @@ try {
                             <i class="bi bi-speedometer2 me-2"></i>
                             Dashboard
                         </a>
-                        <a href="admin-students.php" class="sidebar-link">
-                            <i class="bi bi-people me-2"></i>
-                            Students
+                        <a href="admin-universities-loans.php" class="sidebar-link">
+                            <i class="bi bi-bank me-2"></i>
+                            Universities with Loans
+                        </a>
+                        <a href="admin-online-courses.php" class="sidebar-link">
+                            <i class="bi bi-laptop me-2"></i>
+                            Online Courses
                         </a>
                         <a href="admin-destinations.php" class="sidebar-link active">
                             <i class="bi bi-globe me-2"></i>
                             Destinations
                         </a>
+                        <a href="admin-social-media.php" class="sidebar-link">
+                            <i class="bi bi-share me-2"></i>
+                            Social Media
+                        </a>
                         <a href="admin-inquiries.php" class="sidebar-link">
                             <i class="bi bi-envelope me-2"></i>
                             Inquiries
+                        </a>
+                        <a href="admin-profile.php" class="sidebar-link">
+                            <i class="bi bi-person me-2"></i>
+                            Profile
                         </a>
                         <a href="logout.php" class="sidebar-link">
                             <i class="bi bi-box-arrow-right me-2"></i>
@@ -146,19 +156,20 @@ try {
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 admin-content">
                 <div class="p-4">
-                    <!-- Header -->
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2>Manage Destinations</h2>
-                        <div class="d-flex align-items-center">
-                            <span class="me-3">Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-                            <a href="index.html" class="btn btn-outline-primary btn-sm">
-                                <i class="bi bi-house me-1"></i>
+                        <div>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDestinationModal">
+                                <i class="bi bi-plus-circle me-1"></i>
+                                Add Destination
+                            </button>
+                            <a href="index.html" class="btn btn-outline-primary btn-sm ms-2" target="_blank">
+                                <i class="bi bi-eye me-1"></i>
                                 View Website
                             </a>
                         </div>
                     </div>
 
-                    <!-- Alerts -->
                     <?php if (isset($success)): ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <?php echo htmlspecialchars($success); ?>
@@ -173,59 +184,34 @@ try {
                         </div>
                     <?php endif; ?>
 
-                    <!-- Add Destination Button -->
-                    <div class="mb-4">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDestinationModal">
-                            <i class="bi bi-plus-circle me-2"></i>
-                            Add New Destination
-                        </button>
-                    </div>
-
-                    <!-- Destinations Table -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Image</th>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Sort Order</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($destinations as $destination): ?>
-                                            <tr>
-                                                <td>
-                                                    <img src="<?php echo htmlspecialchars($destination['image_path']); ?>" 
-                                                         alt="<?php echo htmlspecialchars($destination['name']); ?>" 
-                                                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
-                                                </td>
-                                                <td><?php echo htmlspecialchars($destination['name']); ?></td>
-                                                <td><?php echo htmlspecialchars(substr($destination['description'], 0, 100)) . '...'; ?></td>
-                                                <td><?php echo $destination['sort_order']; ?></td>
-                                                <td>
-                                                    <span class="badge bg-<?php echo $destination['is_active'] ? 'success' : 'secondary'; ?>">
-                                                        <?php echo $destination['is_active'] ? 'Active' : 'Inactive'; ?>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-primary" onclick="editDestination(<?php echo htmlspecialchars(json_encode($destination)); ?>)">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger" onclick="deleteDestination(<?php echo $destination['id']; ?>, '<?php echo htmlspecialchars($destination['name']); ?>')">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
+                    <div class="row g-4">
+                        <?php foreach ($destinations as $destination): ?>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <h5 class="card-title"><?php echo htmlspecialchars($destination['name']); ?></h5>
+                                            <span class="badge bg-<?php echo $destination['is_active'] ? 'success' : 'secondary'; ?>">
+                                                <?php echo $destination['is_active'] ? 'Active' : 'Inactive'; ?>
+                                            </span>
+                                        </div>
+                                        
+                                        <p><strong>Country:</strong> <?php echo htmlspecialchars($destination['country']); ?></p>
+                                        <p><strong>Slug:</strong> <?php echo htmlspecialchars($destination['slug']); ?></p>
+                                        <p><strong>Description:</strong> <?php echo htmlspecialchars($destination['description']); ?></p>
+                                        
+                                        <div class="mt-3">
+                                            <button class="btn btn-sm btn-primary" onclick="editDestination(<?php echo htmlspecialchars(json_encode($destination)); ?>)">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </button>
+                                            <button class="btn btn-sm btn-danger ms-2" onclick="deleteDestination(<?php echo $destination['id']; ?>)">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -236,32 +222,40 @@ try {
     <div class="modal fade" id="addDestinationModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST">
-                    <input type="hidden" name="action" value="add">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add New Destination</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Destination</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" id="destinationForm">
                     <div class="modal-body">
+                        <input type="hidden" name="action" value="add">
+                        
                         <div class="mb-3">
-                            <label class="form-label">Name</label>
+                            <label class="form-label">Destination Name *</label>
                             <input type="text" class="form-control" name="name" required>
                         </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Slug *</label>
+                            <input type="text" class="form-control" name="slug" required placeholder="e.g., canada, uk, usa">
+                            <small class="form-text text-muted">URL-friendly version of the name (lowercase, no spaces)</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Country *</label>
+                            <input type="text" class="form-control" name="country" required>
+                        </div>
+                        
                         <div class="mb-3">
                             <label class="form-label">Description</label>
-                            <textarea class="form-control" name="description" rows="3" required></textarea>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Image Path</label>
-                            <input type="text" class="form-control" name="image_path" placeholder="assets/img/country.png" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Features (one per line)</label>
-                            <textarea class="form-control" name="features" rows="4" placeholder="Feature 1&#10;Feature 2&#10;Feature 3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Sort Order</label>
-                            <input type="number" class="form-control" name="sort_order" value="0">
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="is_active" id="isActive" checked>
+                            <label class="form-check-label" for="isActive">
+                                Active Destination
+                            </label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -277,41 +271,40 @@ try {
     <div class="modal fade" id="editDestinationModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST">
-                    <input type="hidden" name="action" value="edit">
-                    <input type="hidden" name="id" id="edit_id">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Destination</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Destination</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" id="editDestinationForm">
                     <div class="modal-body">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="id" id="editId">
+                        
                         <div class="mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" id="edit_name" required>
+                            <label class="form-label">Destination Name *</label>
+                            <input type="text" class="form-control" name="name" id="editName" required>
                         </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Slug *</label>
+                            <input type="text" class="form-control" name="slug" id="editSlug" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Country *</label>
+                            <input type="text" class="form-control" name="country" id="editCountry" required>
+                        </div>
+                        
                         <div class="mb-3">
                             <label class="form-label">Description</label>
-                            <textarea class="form-control" name="description" id="edit_description" rows="3" required></textarea>
+                            <textarea class="form-control" name="description" id="editDescription" rows="3"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Image Path</label>
-                            <input type="text" class="form-control" name="image_path" id="edit_image_path" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Features (one per line)</label>
-                            <textarea class="form-control" name="features" id="edit_features" rows="4"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Sort Order</label>
-                            <input type="number" class="form-control" name="sort_order" id="edit_sort_order">
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="is_active" id="edit_is_active" value="1">
-                                <label class="form-check-label" for="edit_is_active">
-                                    Active
-                                </label>
-                            </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="is_active" id="editIsActive">
+                            <label class="form-check-label" for="editIsActive">
+                                Active Destination
+                            </label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -327,22 +320,21 @@ try {
     <div class="modal fade" id="deleteModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="id" id="delete_id">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirm Delete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete the destination "<span id="delete_name"></span>"?</p>
-                        <p class="text-danger">This action cannot be undone.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete Destination</button>
-                    </div>
-                </form>
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this destination? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" style="display: inline;">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" id="deleteId">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -350,24 +342,21 @@ try {
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
         function editDestination(destination) {
-            document.getElementById('edit_id').value = destination.id;
-            document.getElementById('edit_name').value = destination.name;
-            document.getElementById('edit_description').value = destination.description;
-            document.getElementById('edit_image_path').value = destination.image_path;
-            document.getElementById('edit_sort_order').value = destination.sort_order;
-            document.getElementById('edit_is_active').checked = destination.is_active == 1;
+            document.getElementById('editId').value = destination.id;
+            document.getElementById('editName').value = destination.name;
+            document.getElementById('editSlug').value = destination.slug;
+            document.getElementById('editCountry').value = destination.country;
+            document.getElementById('editDescription').value = destination.description || '';
+            document.getElementById('editIsActive').checked = destination.is_active == 1;
             
-            // Parse features from JSON
-            const features = JSON.parse(destination.features);
-            document.getElementById('edit_features').value = features.join('\n');
-            
-            new bootstrap.Modal(document.getElementById('editDestinationModal')).show();
+            const modal = new bootstrap.Modal(document.getElementById('editDestinationModal'));
+            modal.show();
         }
         
-        function deleteDestination(id, name) {
-            document.getElementById('delete_id').value = id;
-            document.getElementById('delete_name').textContent = name;
-            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        function deleteDestination(id) {
+            document.getElementById('deleteId').value = id;
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
         }
     </script>
 </body>

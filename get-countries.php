@@ -12,7 +12,15 @@ try {
     ");
     $destinations = $stmt->fetchAll();
     
-    // Add default countries if no destinations exist
+    // If no destinations exist, return empty array
+    $countries = $destinations ?: [];
+    
+    echo json_encode([
+        'success' => true,
+        'countries' => $countries
+    ]);
+} catch (Exception $e) {
+    // Return default countries if database error
     $defaultCountries = [
         ['country' => 'Canada', 'slug' => 'canada'],
         ['country' => 'United Kingdom', 'slug' => 'uk'],
@@ -23,16 +31,9 @@ try {
         ['country' => 'Turkey', 'slug' => 'turkey']
     ];
     
-    $countries = !empty($destinations) ? $destinations : $defaultCountries;
-    
     echo json_encode([
         'success' => true,
-        'countries' => $countries
-    ]);
-} catch (Exception $e) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Error fetching countries: ' . $e->getMessage()
+        'countries' => $defaultCountries
     ]);
 }
 ?>

@@ -1,6 +1,11 @@
 <?php
 // Test email functionality for Modern Education Consult
-require_once 'config/email.php';
+// Try to use PHPMailer if available, otherwise fall back to simple email
+if (file_exists('config/phpmailer.php')) {
+    require_once 'config/phpmailer.php';
+} else {
+    require_once 'config/simple-email.php';
+}
 
 echo "<h2>Testing Email Functionality</h2>";
 

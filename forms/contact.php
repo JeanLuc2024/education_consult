@@ -1,7 +1,13 @@
 <?php
 // Contact form handler for Modern Education Consult Ltd
 require_once '../config/database.php';
-require_once '../config/email.php';
+
+// Try to use PHPMailer if available, otherwise fall back to simple email
+if (file_exists('../config/phpmailer.php')) {
+    require_once '../config/phpmailer.php';
+} else {
+    require_once '../config/simple-email.php';
+}
 
 // Set content type
 header('Content-Type: application/json');
