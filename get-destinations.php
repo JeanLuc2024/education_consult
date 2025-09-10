@@ -8,7 +8,7 @@ try {
         SELECT name, slug, country 
         FROM destinations 
         WHERE is_active = 1 
-        ORDER BY country ASC
+        ORDER BY name ASC
     ");
     $destinations = $stmt->fetchAll();
     

@@ -1,6 +1,6 @@
 <?php
-// Simple email test without PHPMailer dependency
-require_once 'config/simple-email.php';
+// Simple email test with working email configuration
+require_once 'config/working-email.php';
 
 echo "<h2>Testing Simple Email Functionality</h2>";
 

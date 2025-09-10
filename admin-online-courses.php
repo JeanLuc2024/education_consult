@@ -127,44 +127,7 @@ try {
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 admin-sidebar p-0">
-                <div class="p-4">
-                    <h4 class="text-white mb-4">
-                        <i class="bi bi-gear-fill me-2"></i>
-                        Admin Panel
-                    </h4>
-                    <nav class="nav flex-column">
-                        <a href="admin-dashboard.php" class="sidebar-link">
-                            <i class="bi bi-speedometer2 me-2"></i>
-                            Dashboard
-                        </a>
-                        <a href="admin-universities-loans.php" class="sidebar-link">
-                            <i class="bi bi-bank me-2"></i>
-                            Universities with Loans
-                        </a>
-                        <a href="admin-online-courses.php" class="sidebar-link active">
-                            <i class="bi bi-laptop me-2"></i>
-                            Online Courses
-                        </a>
-                        <a href="admin-social-media.php" class="sidebar-link">
-                            <i class="bi bi-share me-2"></i>
-                            Social Media
-                        </a>
-                        <a href="admin-services.php" class="sidebar-link">
-                            <i class="bi bi-gear me-2"></i>
-                            Services
-                        </a>
-                        <a href="admin-inquiries.php" class="sidebar-link">
-                            <i class="bi bi-envelope me-2"></i>
-                            Inquiries
-                        </a>
-                        <a href="logout.php" class="sidebar-link">
-                            <i class="bi bi-box-arrow-right me-2"></i>
-                            Logout
-                        </a>
-                    </nav>
-                </div>
-            </div>
+            <?php include 'admin-sidebar.php'; ?>
 
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 admin-content">
