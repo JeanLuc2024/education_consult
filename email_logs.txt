@@ -1,0 +1,22 @@
+
+================================================================================
+EMAIL NOTIFICATION - 2025-09-10 19:14:58
+================================================================================
+TO: moderneducationconsult2025@gmail.com
+SUBJECT: Test Consultation Request - Test User
+FROM: Modern Education Consult Ltd <moderneducationconsult2025@gmail.com>
+----------------------------------------
+MESSAGE:
+
+New consultation request received:
+
+Name: Test User
+Email: test@example.com
+Phone: +250798979720
+Age: 25
+Country of Interest: canada
+Education Level: bachelor
+Message: This is a test consultation request to verify email functionality.
+
+Submitted on: 2025-09-10 19:14:56
+================================================================================
